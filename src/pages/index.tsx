@@ -1,7 +1,12 @@
+// import { Btn } from "@/component";
+
+
 export default function Home() {
   return (
     <>
-      Hello
+      {/* <Btn size="md">
+        Hello
+      </Btn> */}
     </>
   )
 }

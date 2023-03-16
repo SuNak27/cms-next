@@ -19,6 +19,7 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "formik": "^2.2.9",
     "framer-motion": "^10.3.2",
     "next": "13.2.4",
     "react": "18.2.0",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
+    "@chakra-ui/storybook-addon": "^4.0.16",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",

@@ -1,6 +1,6 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 
-const config = {
+const config: ThemeConfig = {
   initialColorMode: 'dark',
   useSystemColorMode: true,
 };
@@ -42,15 +42,4 @@ const theme = extendTheme({
   },
 });
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-  cakra: {
-    theme
-  }
-}
+export default theme;
