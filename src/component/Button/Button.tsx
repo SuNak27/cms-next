@@ -1,21 +1,20 @@
-import { Button } from "@chakra-ui/react";
+import { Button as Btn, useColorModeValue } from "@chakra-ui/react";
 
 export interface ButtonProps {
   onClick?: () => void;
   children?: React.ReactNode;
   style?: React.CSSProperties;
   size?: "sm" | "md" | "lg" | "xl";
-  variant?: "ghost" | "outline" | "solid" | "link" | "unstyled";
-  color?: "primary" | "secondary" | "warning" | "danger" | "success" | "info";
+  variant?: "primary" | "secondary" | "warning" | "danger" | "success" | "info";
 }
 
-export const Btn = (props: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
   return (
-    <Button size={props.size} variant={props.variant ?? "solid"}>
+    <Btn size={props.size} variant={props.variant} onClick={props.onClick}>
       {props.children}
-    </Button>
+    </Btn>
   );
 }
 
-export default Btn;
+export default Button;
 

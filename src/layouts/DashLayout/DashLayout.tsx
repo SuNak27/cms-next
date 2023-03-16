@@ -1,13 +1,15 @@
-import { Btn } from "@/component";
-import { Box } from "@chakra-ui/react";
+import { Button } from "@/component";
+import { Box, useColorMode } from "@chakra-ui/react";
 
 export const DashLayout = ({ children }: { children: React.ReactNode }) => {
+  const { colorMode, toggleColorMode } = useColorMode()
+
   return (
-    <Box>
-      <Btn>
-        Hello
-      </Btn>
-    </Box>
+    <Box w="100%" h="100%">
+      <Button onClick={toggleColorMode} variant={'danger'}>
+        Toggle {colorMode === "light" ? "Dark" : "Light"}
+      </Button>
+    </Box >
   )
 }
 

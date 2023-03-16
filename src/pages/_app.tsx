@@ -1,3 +1,4 @@
+import theme from '@/config';
 import { DashLayout } from '@/layouts';
 import { ChakraProvider } from '@chakra-ui/react'
 
@@ -10,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const getLayout = (page: React.ReactNode) => {
     return (
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <DashLayout>
           {Component.getLayout ? Component.getLayout(page) : page}
         </DashLayout>
