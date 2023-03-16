@@ -1,7 +1,4 @@
-import { ArrowLeftIcon } from "@chakra-ui/icons"
-import { ArrowRightIcon } from "@chakra-ui/icons"
 import { Box, Text, useColorMode, useColorModeValue } from "@chakra-ui/react"
-import { useState } from "react"
 import { match } from "ts-pattern"
 import { SidebarHeader } from "./Header"
 import { useSidebarMachine } from "./Sidebar.machine"
@@ -19,25 +16,26 @@ export const Sidebar = () => {
   }
 
   return (
-    <Box
-      as="aside"
-      pos="fixed"
-      top="0"
-      left="0"
-      w={
-        match(state)
-          .with({ type: 'small' }, () => '20')
-          .with({ type: 'large' }, () => '64')
-          .otherwise(() => '64')
-      }
-      h="100%"
-      bg={color}
-      color={textColor}
-      animation="sidebar 0.3s ease-in-out"
-      overflow="hidden"
-    >
-      <SidebarHeader onClick={onChange} state={state} />
-    </Box>
+    <>
+      <Box
+        as="aside"
+        pos={'sticky'}
+        top="0"
+        left="0"
+        w={state.width}
+        h="100vh"
+        bg={color}
+        color={textColor}
+        transition="width 0.3s ease-in-out"
+        overflow="hidden"
+        display={{
+          base: 'none',
+          md: 'block'
+        }}
+      >
+        <SidebarHeader onClick={onChange} state={state} />
+      </Box>
+    </>
   )
 }
 
