@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Button } from './Button';
 
 export default {
-  title: 'Example/Button',
+  title: 'Example/MyButton',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -19,9 +19,8 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
   children: 'Example',
-  variant: 'primary',
+  variant: 'success',
   size: 'md',
-  style: { width: '100%' },
 };
 
 Template.bind({});
