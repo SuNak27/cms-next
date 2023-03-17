@@ -1,38 +1,126 @@
-import { Flex, FlexProps, Icon, Link, useColorModeValue } from '@chakra-ui/react';
-import { IconType } from 'react-icons';
+import { MenuSchemasProps } from '@/utils/menuSchemas';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex,
+  FlexProps,
+  Icon,
+  Link
+} from '@chakra-ui/react';
 
-interface NavItemProps extends FlexProps {
-  icon: IconType;
-  children: string;
+interface MenuItemProps extends FlexProps {
+  menu: MenuSchemasProps[] | undefined;
 }
 
-export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align="center"
-        px="4"
-        py="2"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'teal.400',
-          color: 'white',
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
+    <>
+
+      {menu?.map((item) => {
+        if (item.labelHeading) {
+          return (
+            <>
+              <Flex
+                key={item.labelHeading}
+                align="center"
+                color="gray.400"
+                fontWeight="semibold"
+                fontSize="xs"
+                textTransform="uppercase"
+                px="6"
+                my="3"
+              >
+                {item.labelHeading}
+              </Flex>
+              <NavItem menu={item.children} />
+            </>
+          );
+        }
+
+        if (item.children) {
+          return (
+            <>
+              <Accordion allowToggle>
+                <AccordionItem
+                  border="none"
+                  key={item.name}
+                >
+                  <Flex
+                    align="center"
+                    px="4"
+                    py="1"
+                    mx="4"
+                    borderRadius="lg"
+                    role="group"
+                    cursor="pointer"
+                    justifyContent="space-between"
+                    _hover={{
+                      bg: 'teal.400',
+                      color: 'white',
+                    }}
+                    {...rest}
+                  >
+                    <Box w={'100%'} display={'flex'} alignItems={'center'}>
+                      {item.icon && (
+                        <Icon
+                          mr="4"
+                          fontSize="16"
+                          as={item.icon}
+                        />
+                      )}
+                      {item.name}
+                    </Box>
+                    <AccordionButton
+                      maxH={'32px'}
+                      w={'32px'}
+                      _hover={{ bg: 'transparent' }}
+                    >
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </Flex>
+                  <AccordionPanel pb={2}>
+                    <NavItem menu={item.children} ms={0} me={0} />
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </>
+          );
+        }
+
+
+        return (
+          <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} key={item.name}>
+            <Flex
+              align="center"
+              px="4"
+              py="2"
+              mx="4"
+              borderRadius="lg"
+              role="group"
+              cursor="pointer"
+              _hover={{
+                bg: 'teal.400',
+                color: 'white',
+              }}
+              {...rest}
+            >
+              {item.icon && (
+                <Icon
+                  mr="4"
+                  fontSize="16"
+                  as={item.icon}
+                />
+              )}
+              {item.name}
+            </Flex>
+          </Link>
+        )
+      })}
+    </>
   );
 };
 

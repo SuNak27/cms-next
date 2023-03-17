@@ -1,15 +1,14 @@
 import {
   Avatar,
   Box,
+  Divider,
   Flex,
   FlexProps,
   HStack,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Text,
   useColorMode,
   useColorModeValue,
@@ -19,7 +18,6 @@ import {
   FiMenu,
   FiSun,
   FiMoon,
-  FiChevronDown,
 } from 'react-icons/fi';
 
 
@@ -43,6 +41,7 @@ export const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
       bg={useColorModeValue('white', 'gray.700')}
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}>
+
       <IconButton
         display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
@@ -59,7 +58,7 @@ export const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
         Logo
       </Text>
 
-      <HStack spacing={{ base: '0', md: '6' }}>
+      <HStack spacing={{ base: '0', md: '2' }}>
         <IconButton
           size="lg"
           variant="ghost"
@@ -74,52 +73,87 @@ export const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
         />
 
         <Flex alignItems={'center'}>
-          <Menu>
-            <MenuButton
-              py={2}
-              px={4}
-              _hover={{ bg: useColorModeValue('gray.100', 'gray.800') }}
-              _active={{ bg: useColorModeValue('gray.100', 'gray.800') }}
-              borderRadius="md"
-              transition="all 0.3s"
-              _focus={{ boxShadow: 'none' }}>
-              <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-                <VStack
-                  display={{ base: 'none', md: 'flex' }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2">
-                  <Text fontSize="sm">My Name</Text>
-                  <Text fontSize="xs" color="gray.400">
-                    Admin
-                  </Text>
-                </VStack>
-                <Box display={{ base: 'none', md: 'flex' }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
-            </MenuButton>
-            <MenuList
+          <Popover trigger={'hover'} placement={'bottom-end'}>
+            <PopoverTrigger>
+              <Box
+                py={1}
+                px={4}
+                _hover={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+                _active={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+                borderRadius="md"
+                transition="all 0.3s"
+                _focus={{ boxShadow: 'none' }}
+              >
+                <HStack>
+                  <Avatar
+                    size={'sm'}
+                    src={
+                      'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    }
+                  />
+                  <VStack
+                    display={{ base: 'none', md: 'flex' }}
+                    alignItems="flex-start"
+                    spacing="1px"
+                    ml="2">
+                    <Text fontSize="sm">My Name</Text>
+                    <Text fontSize="xs" color="gray.400">
+                      Admin
+                    </Text>
+                  </VStack>
+                </HStack>
+              </Box>
+            </PopoverTrigger>
+
+
+            <PopoverContent
+              border={0}
+              boxShadow={'xl'}
               bg={useColorModeValue('white', 'gray.700')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}
-              p="4"
+              p={4}
+              rounded={'xl'}
+              w={'200px'}
             >
-              <MenuItem borderRadius="md">Profile</MenuItem>
-              <MenuItem borderRadius="md">Setting</MenuItem>
-              <MenuDivider
-                borderColor={useColorModeValue('gray.200', 'gray.800')}
+              <Box
+                cursor="pointer"
+                py={1}
+                px={3}
+                _hover={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+                borderRadius="md"
+              >
+                Profile
+              </Box>
+
+              <Box
+                cursor="pointer"
+                py={1}
+                px={3}
+                _hover={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+                borderRadius="md"
+              >
+                Setting
+              </Box>
+
+              <Divider my={2}
+                borderColor={useColorModeValue('gray.200', 'gray.600')}
               />
-              <MenuItem borderRadius="md">Sign Out</MenuItem>
-            </MenuList>
-          </Menu>
+
+              <Box
+                cursor="pointer"
+                py={1}
+                px={3}
+                _hover={{ bg: useColorModeValue('gray.100', 'gray.600') }}
+                borderRadius="md"
+              >
+                Log out
+              </Box>
+
+            </PopoverContent>
+
+          </Popover>
         </Flex>
-      </HStack>
-    </Flex>
+      </HStack >
+    </Flex >
   );
 };
