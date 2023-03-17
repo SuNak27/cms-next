@@ -76,7 +76,7 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
                     </Box>
                     <AccordionButton
                       maxH={'32px'}
-                      w={'32px'}
+                      w={'52px'}
                       _hover={{ bg: 'transparent' }}
                     >
                       <AccordionIcon />
