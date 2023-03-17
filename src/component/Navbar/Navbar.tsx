@@ -83,6 +83,7 @@ export const Navbar = ({ onOpen, ...rest }: NavbarProps) => {
                 borderRadius="md"
                 transition="all 0.3s"
                 _focus={{ boxShadow: 'none' }}
+                cursor="pointer"
               >
                 <HStack>
                   <Avatar
