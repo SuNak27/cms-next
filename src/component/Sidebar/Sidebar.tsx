@@ -1,42 +1,51 @@
-import { Box, Text, useColorMode, useColorModeValue } from "@chakra-ui/react"
-import { match } from "ts-pattern"
-import { SidebarHeader } from "./Header"
-import { useSidebarMachine } from "./Sidebar.machine"
+import { Box, BoxProps, CloseButton, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  FiHome,
+  FiTrendingUp,
+  FiCompass,
+  FiStar,
+  FiSettings,
+} from 'react-icons/fi';
+import { IconType } from 'react-icons';
+import NavItem from "./Sidebar.MenuItem";
 
-export const Sidebar = () => {
-  const color = useColorModeValue("gray.100", "gray.700")
-  const textColor = useColorModeValue("gray.900", "gray.100")
-  const [state, dispatch] = useSidebarMachine();
-
-  const onChange = () => {
-    match(state)
-      .with({ type: 'large' }, () => dispatch({ type: 'TOGGLE_SMALL' }))
-      .with({ type: 'small' }, () => dispatch({ type: 'TOGGLE_LARGE' }))
-      .otherwise(() => null)
-  }
-
-  return (
-    <>
-      <Box
-        as="aside"
-        pos={'sticky'}
-        top="0"
-        left="0"
-        w={state.width}
-        h="100vh"
-        bg={color}
-        color={textColor}
-        transition="width 0.3s ease-in-out"
-        overflow="hidden"
-        display={{
-          base: 'none',
-          md: 'block'
-        }}
-      >
-        <SidebarHeader onClick={onChange} state={state} />
-      </Box>
-    </>
-  )
+interface SidebarContentProps extends BoxProps {
+  onClose: () => void;
 }
 
-export default Sidebar
+interface LinkItemProps {
+  name: string;
+  icon: IconType;
+}
+
+const LinkItems: Array<LinkItemProps> = [
+  { name: 'Home', icon: FiHome },
+  { name: 'Trending', icon: FiTrendingUp },
+  { name: 'Explore', icon: FiCompass },
+  { name: 'Favourites', icon: FiStar },
+  { name: 'Settings', icon: FiSettings },
+];
+
+export const Sidebar = ({ onClose, ...rest }: SidebarContentProps) => {
+  return (
+    <Box
+      bg={useColorModeValue('white', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}>
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+          Logo
+        </Text>
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      </Flex>
+
+      {LinkItems.map((link) => (
+        <NavItem key={link.name} icon={link.icon}>
+          {link.name}
+        </NavItem>
+      ))}
+    </Box>
+  );
+};
