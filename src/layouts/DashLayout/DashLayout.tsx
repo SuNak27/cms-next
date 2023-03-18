@@ -1,5 +1,4 @@
-import { Navbar } from "@/component/Navbar";
-import { Sidebar } from "@/component/Sidebar";
+import { Navbar, Sidebar } from "@/component";
 import { Box, Drawer, DrawerContent, Flex, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 
 export const DashLayout = ({ children }: { children: React.ReactNode }) => {
