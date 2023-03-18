@@ -36,7 +36,7 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
               >
                 {item.labelHeading}
               </Flex>
-              <NavItem menu={item.children} />
+              <NavItem menu={item.children} key={item.labelHeading} />
             </>
           );
         }
@@ -44,10 +44,9 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
         if (item.children) {
           return (
             <>
-              <Accordion allowToggle>
+              <Accordion allowToggle key={item.name}>
                 <AccordionItem
                   border="none"
-                  key={item.name}
                 >
                   <Flex
                     align="center"
