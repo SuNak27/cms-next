@@ -41,50 +41,48 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
 
         if (item.children) {
           return (
-            <>
-              <Accordion allowToggle key={index}>
-                <AccordionItem
-                  border="none"
+            <Accordion allowToggle key={index}>
+              <AccordionItem
+                border="none"
+              >
+                <Flex
+                  align="center"
+                  px="4"
+                  py="1"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  justifyContent="space-between"
+                  _hover={{
+                    bg: 'teal.400',
+                    color: 'white',
+                  }}
+                  {...rest}
                 >
-                  <Flex
-                    align="center"
-                    px="4"
-                    py="1"
-                    mx="4"
-                    borderRadius="lg"
-                    role="group"
-                    cursor="pointer"
-                    justifyContent="space-between"
-                    _hover={{
-                      bg: 'teal.400',
-                      color: 'white',
-                    }}
-                    {...rest}
+                  <Box w={'100%'} display={'flex'} alignItems={'center'}>
+                    {item.icon && (
+                      <Icon
+                        mr="4"
+                        fontSize="16"
+                        as={item.icon}
+                      />
+                    )}
+                    {item.name}
+                  </Box>
+                  <AccordionButton
+                    maxH={'32px'}
+                    w={'52px'}
+                    _hover={{ bg: 'transparent' }}
                   >
-                    <Box w={'100%'} display={'flex'} alignItems={'center'}>
-                      {item.icon && (
-                        <Icon
-                          mr="4"
-                          fontSize="16"
-                          as={item.icon}
-                        />
-                      )}
-                      {item.name}
-                    </Box>
-                    <AccordionButton
-                      maxH={'32px'}
-                      w={'52px'}
-                      _hover={{ bg: 'transparent' }}
-                    >
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </Flex>
-                  <AccordionPanel pb={2}>
-                    <NavItem menu={item.children} ms={0} me={0} />
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </Flex>
+                <AccordionPanel pb={2}>
+                  <NavItem menu={item.children} ms={0} me={0} />
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           );
         }
 

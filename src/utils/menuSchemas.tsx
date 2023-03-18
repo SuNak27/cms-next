@@ -6,6 +6,7 @@ import {
   FiUser,
   FiMousePointer,
   FiPieChart,
+  FiUmbrella,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 
@@ -53,7 +54,7 @@ export const MenuSchemas: Array<MenuSchemasProps> = [
   {
     labelHeading: 'Statistics',
     children: [
-      { name: 'Insights', icon: FiPieChart },
+      { name: 'Insights', icon: FiPieChart }
     ],
   },
 ];
