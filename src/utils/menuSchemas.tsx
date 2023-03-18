@@ -6,7 +6,6 @@ import {
   FiUser,
   FiMousePointer,
   FiPieChart,
-  FiUmbrella,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 

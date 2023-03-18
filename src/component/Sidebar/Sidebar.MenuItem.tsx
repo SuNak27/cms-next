@@ -1,91 +1,36 @@
 import { MenuSchemasProps } from '@/utils/menuSchemas';
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
   Flex,
   FlexProps,
   Icon,
   Link
 } from '@chakra-ui/react';
+import LabelHeading from './Sidebar.LabelHeading';
+import MenuItemChildren from './Sidebar.MenuItemChildren';
 
 interface MenuItemProps extends FlexProps {
   menu: MenuSchemasProps[] | undefined;
 }
 
-export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
+export const MenuItem = ({ menu, ...rest }: MenuItemProps) => {
   return (
     <>
       {menu?.map((item, index) => {
         if (item.labelHeading) {
           return (
-            <Box key={index}>
-              <Flex
-                align="center"
-                color="gray.400"
-                fontWeight="semibold"
-                fontSize="xs"
-                textTransform="uppercase"
-                px="6"
-                my="3"
-              >
-                {item.labelHeading}
-              </Flex>
-              <NavItem menu={item.children} />
-            </Box>
+            <LabelHeading labelHeading={item.labelHeading} key={index}>
+              <MenuItem menu={item.children} />
+            </LabelHeading>
           );
         }
 
         if (item.children) {
           return (
-            <Accordion allowToggle key={index}>
-              <AccordionItem
-                border="none"
-              >
-                <Flex
-                  align="center"
-                  px="4"
-                  py="1"
-                  mx="4"
-                  borderRadius="lg"
-                  role="group"
-                  cursor="pointer"
-                  justifyContent="space-between"
-                  _hover={{
-                    bg: 'teal.400',
-                    color: 'white',
-                  }}
-                  {...rest}
-                >
-                  <Box w={'100%'} display={'flex'} alignItems={'center'}>
-                    {item.icon && (
-                      <Icon
-                        mr="4"
-                        fontSize="16"
-                        as={item.icon}
-                      />
-                    )}
-                    {item.name}
-                  </Box>
-                  <AccordionButton
-                    maxH={'32px'}
-                    w={'52px'}
-                    _hover={{ bg: 'transparent' }}
-                  >
-                    <AccordionIcon />
-                  </AccordionButton>
-                </Flex>
-                <AccordionPanel pb={2}>
-                  <NavItem menu={item.children} ms={0} me={0} />
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
+            <MenuItemChildren key={index} icon={item.icon} name={item.name}>
+              <MenuItem menu={item.children} />
+            </MenuItemChildren>
           );
         }
-
 
         return (
           <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} key={index}>
@@ -119,4 +64,4 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
   );
 };
 
-export default NavItem;
+export default MenuItem;
