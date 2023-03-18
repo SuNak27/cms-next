@@ -6,11 +6,12 @@ import {
   FiUser,
   FiMousePointer,
   FiPieChart,
+  FiInfo,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 
-
 export interface MenuSchemasProps {
+  link?: string;
   labelHeading?: string;
   name?: string;
   icon?: IconType;
@@ -22,7 +23,8 @@ export const MenuSchemas: Array<MenuSchemasProps> = [
   {
     labelHeading: 'dashboard',
     children: [
-      { name: 'Home', icon: FiHome },
+      { name: 'Home', icon: FiHome, link: '/' },
+      { name: 'About', icon: FiInfo, link: '/about' },
       {
         name: 'User Profile',
         icon: FiUser,

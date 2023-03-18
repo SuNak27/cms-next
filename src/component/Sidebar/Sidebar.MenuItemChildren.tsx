@@ -24,8 +24,7 @@ export const MenuItemChildren = ({ children, icon, name, ...rest }: MenuItemChil
           cursor="pointer"
           justifyContent="space-between"
           _hover={{
-            bg: 'teal.400',
-            color: 'white',
+            color: 'teal.400',
           }}
           {...rest}
         >

@@ -22,7 +22,7 @@
     "eslint-config-next": "13.2.4",
     "eslint-plugin-unused-imports": "^2.0.0",
     "formik": "^2.2.9",
-    "framer-motion": "^10.3.2",
+    "framer-motion": "^10.6.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

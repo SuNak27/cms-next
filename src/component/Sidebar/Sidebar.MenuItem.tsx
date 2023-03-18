@@ -1,12 +1,10 @@
 import { MenuSchemasProps } from '@/utils/menuSchemas';
 import {
-  Flex,
   FlexProps,
-  Icon,
-  Link
 } from '@chakra-ui/react';
 import LabelHeading from './Sidebar.LabelHeading';
 import MenuItemChildren from './Sidebar.MenuItemChildren';
+import SidebarLink from './Sidebar.Link';
 
 interface MenuItemProps extends FlexProps {
   menu: MenuSchemasProps[] | undefined;
@@ -33,31 +31,7 @@ export const MenuItem = ({ menu, ...rest }: MenuItemProps) => {
         }
 
         return (
-          <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} key={index}>
-            <Flex
-              align="center"
-              px="4"
-              py="2"
-              mx="4"
-              borderRadius="lg"
-              role="group"
-              cursor="pointer"
-              _hover={{
-                bg: 'teal.400',
-                color: 'white',
-              }}
-              {...rest}
-            >
-              {item.icon && (
-                <Icon
-                  mr="4"
-                  fontSize="16"
-                  as={item.icon}
-                />
-              )}
-              {item.name}
-            </Flex>
-          </Link>
+          <SidebarLink item={item} key={index} {...rest} />
         )
       })}
     </>
