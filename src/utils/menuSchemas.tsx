@@ -42,7 +42,15 @@ export const MenuSchemas: Array<MenuSchemasProps> = [
             icon: FiSettings,
             children: [
               { name: 'Email', icon: FiMousePointer },
-              { name: 'Password', icon: FiStar },
+              {
+                name: 'Password', icon: FiStar,
+                children: [
+                  {
+                    name: 'Tset',
+                    icon: FiStar,
+                  }
+                ]
+              },
             ],
           },
           { name: 'Overview', icon: FiMousePointer },
