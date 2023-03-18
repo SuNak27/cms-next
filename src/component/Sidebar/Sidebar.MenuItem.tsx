@@ -19,13 +19,11 @@ interface MenuItemProps extends FlexProps {
 export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
   return (
     <>
-
       {menu?.map((item) => {
         if (item.labelHeading) {
           return (
-            <>
+            <Box key={item.labelHeading}>
               <Flex
-                key={item.labelHeading}
                 align="center"
                 color="gray.400"
                 fontWeight="semibold"
@@ -36,8 +34,8 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
               >
                 {item.labelHeading}
               </Flex>
-              <NavItem menu={item.children} key={item.labelHeading} />
-            </>
+              <NavItem menu={item.children} />
+            </Box>
           );
         }
 
