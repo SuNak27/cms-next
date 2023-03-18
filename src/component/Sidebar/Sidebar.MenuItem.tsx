@@ -19,10 +19,10 @@ interface MenuItemProps extends FlexProps {
 export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
   return (
     <>
-      {menu?.map((item) => {
+      {menu?.map((item, index) => {
         if (item.labelHeading) {
           return (
-            <Box key={item.labelHeading}>
+            <Box key={index}>
               <Flex
                 align="center"
                 color="gray.400"
@@ -42,7 +42,7 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
         if (item.children) {
           return (
             <>
-              <Accordion allowToggle key={item.name}>
+              <Accordion allowToggle key={index}>
                 <AccordionItem
                   border="none"
                 >
@@ -90,7 +90,7 @@ export const NavItem = ({ menu, ...rest }: MenuItemProps) => {
 
 
         return (
-          <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} key={item.name}>
+          <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} key={index}>
             <Flex
               align="center"
               px="4"
