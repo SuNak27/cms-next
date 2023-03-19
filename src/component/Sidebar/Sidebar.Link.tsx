@@ -30,6 +30,7 @@ export default function SidebarLink({ item, ...rest }: SidebarLinkProps) {
           color: isActive ? 'white' : 'teal.400',
         }}
         bg={isActive ? 'teal.400' : ''}
+        color={isActive ? 'white' : ''}
         {...rest}
       >
         {item.icon && (
