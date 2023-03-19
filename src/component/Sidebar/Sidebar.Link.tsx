@@ -10,11 +10,26 @@ interface SidebarLinkProps extends FlexProps {
 
 export default function SidebarLink({ item, ...rest }: SidebarLinkProps) {
   const [isActive, setIsActive] = useState(false);
-  const router = useRouter()
+  const { pathname } = useRouter()
+
+  const checkActive = () => {
+    if (item.link) {
+      if (item.link === '/') {
+        setIsActive(pathname === item.link)
+        return
+      }
+      const path = pathname.startsWith(item.link) && item.link !== '/'
+      setIsActive(path)
+    } else {
+      setIsActive(false)
+    }
+  }
 
   useEffect(() => {
-    setIsActive(router.pathname === item.link)
-  }, [item.link, router.pathname])
+    checkActive()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
   return (
     <Link as={NextLink} href={item.link || ''} style={{ textDecoration: 'none' }} >
       <Flex
