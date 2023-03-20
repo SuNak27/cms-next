@@ -2,7 +2,7 @@ import { MenuSchemasProps } from "@/utils/menuSchemas";
 import { Flex, FlexProps, Link, Icon } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface SidebarLinkProps extends FlexProps {
   item: MenuSchemasProps;
@@ -12,7 +12,7 @@ export default function SidebarLink({ item, ...rest }: SidebarLinkProps) {
   const [isActive, setIsActive] = useState(false);
   const { pathname } = useRouter()
 
-  const checkActive = () => {
+  const checkActive = useCallback(() => {
     if (item.link) {
       if (item.link === '/') {
         setIsActive(pathname === item.link)
@@ -23,12 +23,11 @@ export default function SidebarLink({ item, ...rest }: SidebarLinkProps) {
     } else {
       setIsActive(false)
     }
-  }
+  }, [item.link, pathname])
 
   useEffect(() => {
     checkActive()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [checkActive])
 
   return (
     <Link as={NextLink} href={item.link || ''} style={{ textDecoration: 'none' }} >
