@@ -1,10 +1,18 @@
-import { Header } from "@/component";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function DetailArticle() {
+function DetailArticle() {
+  const router = useRouter();
+  const { id } = router.query;
   return (
-    <>
-      <Header title="Detail Artikel" />
-      <h1>Detail Article</h1>
-    </>
+    <div>
+      <h1>Article</h1>
+      <p>{id}</p>
+      <Link href="/article/1">
+        Detail Article
+      </Link>
+    </div>
   )
 }
+
+export default DetailArticle

@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <DashLayout>
           {Component.getLayout ? Component.getLayout(page) : page}
         </DashLayout>
-      </ChakraProvider>
+      </ChakraProvider >
     )
   }
 

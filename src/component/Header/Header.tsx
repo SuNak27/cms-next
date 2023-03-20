@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { HeaderContext } from "./HeaderContext";
 
-type Props = {
+type HeaderProps = {
   title: string;
 };
 
-export const Header = (props: Props) => {
+export const Header = (props: HeaderProps) => {
   const title = `${props.title} | ${process.env.NEXT_PUBLIC_APP_NAME}`;
 
 
@@ -17,7 +17,6 @@ export const Header = (props: Props) => {
         </title>
         <meta name="author" content="Alfad Sabil Haq" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* <link rel="icon" href="/assets/images/logo.png" /> */}
       </Head>
     </HeaderContext.Provider>
   )

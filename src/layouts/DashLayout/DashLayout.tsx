@@ -1,4 +1,5 @@
 import { BreadCrumbs, Header, Navbar, Sidebar, SidebarMobile } from "@/component";
+import { getTitle } from "@/mixins";
 import { Box, Flex, useBreakpointValue, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -7,7 +8,7 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const splittedPaths = router.pathname.split("/").filter((x) => x);
-  const title = splittedPaths.map((word) => word[0].toUpperCase() + word.slice(1)).join(" ") || 'Home';
+  const title = getTitle(splittedPaths[splittedPaths.length - 1]) || splittedPaths.map((word) => word[0].toUpperCase() + word.slice(1)).join(" ") || 'Home';
 
   const sideBar = useBreakpointValue({
     base: <SidebarMobile onClose={onClose} isOpen={isOpen} />,

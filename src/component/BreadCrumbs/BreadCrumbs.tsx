@@ -2,46 +2,32 @@ import { ChevronRightIcon } from "@chakra-ui/icons"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-
-type item = {
-  name: string
-  link: string
-}
+import { CrumbsMenuItem } from "./BreadCrumbs.MenuItem"
 
 export const BreadCrumbs = () => {
   const router = useRouter()
-
-  const crumbs = () => {
-    const { pathname } = router
-    let item: item[] = []
-
-    if (pathname == '/') {
-      item = [{ name: 'Home', link: '/' }]
-      return item
-    }
-
-    const splittedPaths = pathname.split("/").filter((x) => x);
-    const matchedPaths = splittedPaths.map((path, index) => {
-      const link = `/${splittedPaths.slice(0, index + 1).join("/")}`;
-      const name = path
-        .split("-")
-        .map((word) => word[0].toUpperCase() + word.slice(1))
-        .join(" ");
-      return { name, link };
-    });
-
-    item = [{ name: 'Home', link: '/' }, ...matchedPaths]
-    return item
+  const menu = CrumbsMenuItem()
+  const isActived = (link: string | undefined) => {
+    return router.pathname == link
   }
-
-  const menu = crumbs()
-
   return (
-    <Breadcrumb spacing='8px' separator={<ChevronRightIcon color='gray.500' />}>
+    <Breadcrumb
+      spacing='8px'
+      separator={<ChevronRightIcon color='gray.500' />}
+      fontWeight='medium'
+      fontSize='sm'
+      color='gray.500'
+    >
       {menu?.map((item, index) => {
         return (
           <BreadcrumbItem key={index}>
-            <BreadcrumbLink as={Link} href={item.link}>{item.name}</BreadcrumbLink>
+            <BreadcrumbLink
+              as={Link}
+              href={item?.link}
+              style={{ textDecoration: 'none' }}
+              _hover={{ color: 'teal.400' }}
+              color={isActived(item?.link) ? 'teal.400' : ''}
+            >{item?.name}</BreadcrumbLink>
           </BreadcrumbItem>
         )
       })}
