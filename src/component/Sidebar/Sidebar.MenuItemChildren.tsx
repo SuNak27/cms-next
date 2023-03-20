@@ -24,8 +24,7 @@ export const MenuItemChildren = ({ children, icon, name, ...rest }: MenuItemChil
           cursor="pointer"
           justifyContent="space-between"
           _hover={{
-            bg: 'teal.400',
-            color: 'white',
+            color: 'teal.400',
           }}
           {...rest}
         >
@@ -47,7 +46,7 @@ export const MenuItemChildren = ({ children, icon, name, ...rest }: MenuItemChil
             <AccordionIcon />
           </AccordionButton>
         </Flex>
-        <AccordionPanel pb={2} ps={2} pe={0}>
+        <AccordionPanel pb={2} ps={2} pe={0} pt={0}>
           {children}
         </AccordionPanel>
       </AccordionItem>
