@@ -1,7 +1,5 @@
-import { MenuSchemasProps } from '@/utils/menuSchemas';
-import {
-  FlexProps,
-} from '@chakra-ui/react';
+import { MenuSchemasProps } from '@/utils';
+import { FlexProps } from '@chakra-ui/react';
 import LabelHeading from './Sidebar.LabelHeading';
 import MenuItemChildren from './Sidebar.MenuItemChildren';
 import SidebarLink from './Sidebar.Link';
