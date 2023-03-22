@@ -1,17 +1,14 @@
-import { Button as ChakraButton } from "@chakra-ui/react";
-
-export interface ButtonProps {
+import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from "@chakra-ui/react";
+export interface ButtonProps extends ChakraButtonProps {
   onClick?: () => void;
   children?: React.ReactNode;
-  style?: React.CSSProperties;
-  size?: "sm" | "md" | "lg" | "xl";
   variant?: "primary" | "secondary" | "warning" | "danger" | "success" | "info";
 }
 
-export const Button = (props: ButtonProps) => {
+export const Button = ({ children, variant, onClick, ...rest }: ButtonProps) => {
   return (
-    <ChakraButton size={props.size} variant={props.variant} onClick={props.onClick}>
-      {props.children}
+    <ChakraButton variant={variant} onClick={onClick} {...rest}>
+      {children}
     </ChakraButton>
   );
 }
