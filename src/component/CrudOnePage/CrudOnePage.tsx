@@ -2,14 +2,14 @@ import { Box } from "@chakra-ui/react"
 import { AppToolbar } from "./CrudOnePage.AppToolbar"
 
 interface CrudOnePageProps {
-  noCreateButton?: boolean
+  showCreateButton?: boolean
   pageTitle: string
 }
 
-export const CrudOnePage = (props: CrudOnePageProps) => {
+export const CrudOnePage = ({ showCreateButton = true, pageTitle }: CrudOnePageProps) => {
   return (
     <Box>
-      <AppToolbar pageTitle={props.pageTitle} noCreateButton={props.noCreateButton} />
+      <AppToolbar pageTitle={pageTitle} showCreateButton={showCreateButton} />
     </Box>
   )
 }
