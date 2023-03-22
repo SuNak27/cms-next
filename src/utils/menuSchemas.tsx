@@ -25,6 +25,7 @@ export const MenuSchemas: Array<MenuSchemasProps> = [
     children: [
       { name: 'Home', icon: FiHome, link: '/' },
       { name: 'About', icon: FiInfo, link: '/about' },
+      { name: 'Article', icon: FiInfo, link: '/article' },
       {
         name: 'User Profile',
         icon: FiUser,
