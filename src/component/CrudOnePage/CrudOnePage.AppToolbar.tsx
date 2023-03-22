@@ -28,7 +28,7 @@ export const AppToolbar = ({
       <Spacer></Spacer>
 
       <Flex alignItems={'center'} gap={{ base: 2, md: 3 }} flexWrap={'wrap'}>
-        {!showCreateButton &&
+        {showCreateButton &&
           <Button variant="info" size={'sm'}>
             Create
           </Button>
