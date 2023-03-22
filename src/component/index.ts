@@ -3,3 +3,5 @@ export * from './Navbar';
 export * from './Button';
 export * from './BreadCrumbs';
 export * from './Header';
+export * from './CrudOnePage';
+export * from './PageHeader';
