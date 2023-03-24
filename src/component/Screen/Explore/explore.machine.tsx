@@ -3,8 +3,16 @@ import React from "react";
 import { match } from "ts-pattern";
 
 export interface Data {
-  id: number;
+  id: string;
   name: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
 }
 
 export type State =
@@ -37,9 +45,9 @@ const onChange = (state: State, dispatch: (action: Action) => void) => {
   match(state)
     .with({ type: 'idle' }, () => dispatch({ type: 'FETCH' }))
     .with({ type: 'loading' }, () => {
-      Axios.get('/hello')
+      Axios.get('/products')
         .then((res) => {
-          dispatch({ type: 'FETCH_SUCCESS', data: res.data });
+          dispatch({ type: 'FETCH_SUCCESS', data: res.data.products });
         })
         .catch((err) => {
           dispatch({ type: 'FETCH_ERROR', message: err.message });
