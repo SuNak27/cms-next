@@ -17,7 +17,7 @@ interface TableProps {
 export const Table = ({ data, columns, isError, isLoading }: TableProps) => {
   return (
     <TableContainer py={5}>
-      <ChakraTable variant='simple' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
+      <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
         <Thead columns={columns} />
         <TBody data={data} columns={columns} isLoading={isLoading} isError={isError} />
       </ChakraTable>
