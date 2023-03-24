@@ -12,14 +12,15 @@ interface TableProps {
   data: Array<Record<string, any>>;
   isLoading?: boolean;
   isError?: boolean;
+  emptytext?: string;
 }
 
-export const Table = ({ data, columns, isError, isLoading }: TableProps) => {
+export const Table = ({ data, columns, isError, isLoading, emptytext }: TableProps) => {
   return (
     <TableContainer py={5}>
       <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
         <Thead columns={columns} />
-        <TBody data={data} columns={columns} isLoading={isLoading} isError={isError} />
+        <TBody data={data} columns={columns} isLoading={isLoading} isError={isError} emptyText={emptytext} />
       </ChakraTable>
     </TableContainer >
   );
