@@ -7,6 +7,8 @@ interface CrudOnePageProps {
   pageTitle: string
   columns: ColumnTable[]
   data: Array<Record<string, any>>
+  isLoading?: boolean
+  isError?: boolean
 }
 
 export const CrudOnePage = ({ showCreateButton = true, ...props }: CrudOnePageProps) => {
@@ -16,7 +18,13 @@ export const CrudOnePage = ({ showCreateButton = true, ...props }: CrudOnePagePr
       <Box mt={5}>
         <Card>
           <CardBody py={2}>
-            <Table data={props.data} columns={props.columns} />
+            <Table
+              data={props.data}
+              columns={props.columns}
+              isLoading={props.isLoading}
+              isError={props.isError}
+              emptytext="No Data"
+            />
           </CardBody>
         </Card>
       </Box>
