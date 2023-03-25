@@ -5,6 +5,7 @@ import { PageHeader } from "../PageHeader"
 interface AppToolbarProps {
   showCreateButton?: boolean
   pageTitle: string
+  onCreateClick?: () => void
 }
 
 const pageHeader = (title: string) => {
@@ -18,6 +19,7 @@ const pageHeader = (title: string) => {
 export const AppToolbar = ({
   showCreateButton = true,
   pageTitle,
+  onCreateClick,
 }: AppToolbarProps) => {
   return (
     <Flex flexDirection={{ basa: 'row', md: 'column' }} flexWrap={'wrap'}>
@@ -29,7 +31,7 @@ export const AppToolbar = ({
 
       <Flex alignItems={'center'} gap={{ base: 2, md: 3 }} flexWrap={'wrap'}>
         {showCreateButton &&
-          <Button variant="info" size={'sm'}>
+          <Button variant="info" size={'sm'} onClick={onCreateClick}>
             Create
           </Button>
         }

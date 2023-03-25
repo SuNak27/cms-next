@@ -19,7 +19,7 @@ export interface MenuSchemasProps {
 }
 
 export const MenuSchemas: Array<MenuSchemasProps> = [
-  { name: 'Explore', icon: FiCompass, link: '/explore' },
+  { name: 'Product', icon: FiCompass, link: '/product' },
   {
     labelHeading: 'dashboard',
     children: [
