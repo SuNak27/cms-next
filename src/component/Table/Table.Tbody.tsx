@@ -1,10 +1,10 @@
 import { Flex, Spinner, Tbody as ChakraTbody, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react"
-import { ColumnTable } from "./Table"
+import { ColumnTableProps } from "./Table"
 import { createNoColumn } from "./Table.utils"
 
 interface TBodyProps {
   data: Array<Record<string, any>>
-  columns: ColumnTable[]
+  columns: ColumnTableProps[]
   isLoading?: boolean
   isError?: boolean
   emptyText?: string

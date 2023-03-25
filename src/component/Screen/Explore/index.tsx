@@ -1,9 +1,8 @@
-import { CrudOnePage } from "@/component";
-import { ColumnTable } from "@/component/Table";
+import { ColumnTableProps, CrudOnePage } from "@/component";
 import { match } from "ts-pattern";
 import { useExploreMachine } from "./explore.machine";
 
-const column: ColumnTable[] = [
+const column: ColumnTableProps[] = [
   { key: "no" },
   { key: "title" },
   { key: "price" },

@@ -2,13 +2,13 @@ import { Table as ChakraTable, TableContainer, useColorModeValue } from "@chakra
 import { TBody } from "./Table.Tbody";
 import { Thead } from "./Table.Thead";
 
-export interface ColumnTable {
+export interface ColumnTableProps {
   key: string;
   label?: string;
 }
 
 interface TableProps {
-  columns: ColumnTable[];
+  columns: ColumnTableProps[];
   data: Array<Record<string, any>>;
   isLoading?: boolean;
   isError?: boolean;

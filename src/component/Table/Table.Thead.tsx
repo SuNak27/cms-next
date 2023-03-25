@@ -1,9 +1,9 @@
 import { Th, Thead as ChakraThead, Tr, useColorModeValue } from "@chakra-ui/react"
-import { ColumnTable } from "./Table"
+import { ColumnTableProps } from "./Table"
 import { formatTableColumns } from "./Table.utils"
 
 type TheadProps = {
-  columns: ColumnTable[]
+  columns: ColumnTableProps[]
 }
 
 export const Thead = ({ columns }: TheadProps) => {
