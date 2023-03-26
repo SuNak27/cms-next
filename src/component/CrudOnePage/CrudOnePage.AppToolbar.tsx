@@ -1,38 +1,26 @@
 import { Flex, Spacer } from "@chakra-ui/react"
-import { Button } from "../Button"
+import { useContext } from "react"
 import { PageHeader } from "../PageHeader"
+import { CrudOnePageContext } from "./CrudOnePage.Context"
 
 interface AppToolbarProps {
-  showCreateButton?: boolean
-  pageTitle: string
+  children?: React.ReactNode
 }
 
-const pageHeader = (title: string) => {
-  return (
-    <PageHeader fontWeight={'bold'} flexDirection={'column'} justifyContent={'center'}>
-      {title}
-    </PageHeader>
-  )
-}
-
-export const AppToolbar = ({
-  showCreateButton = true,
-  pageTitle,
-}: AppToolbarProps) => {
+export const AppToolbar = ({ children }: AppToolbarProps) => {
+  const { pageTitle } = useContext(CrudOnePageContext)
   return (
     <Flex flexDirection={{ basa: 'row', md: 'column' }} flexWrap={'wrap'}>
       <Flex flexDirection={'column'} justifyContent={'center'} flexWrap={'wrap'} mb={{ base: 4, md: 0 }}>
-        {pageHeader(pageTitle)}
+        <PageHeader fontWeight={'bold'} flexDirection={'column'} justifyContent={'center'}>
+          {pageTitle}
+        </PageHeader>
       </Flex>
 
       <Spacer />
 
       <Flex alignItems={'center'} gap={{ base: 2, md: 3 }} flexWrap={'wrap'}>
-        {showCreateButton &&
-          <Button variant="info" size={'sm'}>
-            Create
-          </Button>
-        }
+        {children}
       </Flex>
     </Flex>
   )
