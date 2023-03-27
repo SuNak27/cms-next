@@ -1,14 +1,8 @@
 import { Th, Thead as ChakraThead, Tr } from "@chakra-ui/react"
 import { Component } from "react"
-import { ColumnTableProps } from "../types"
+import { ITheadProps } from "../types"
 
-interface HeaderProps {
-  columns: ColumnTableProps[]
-  borderColor?: string
-  color?: string
-}
-
-export class Header extends Component<HeaderProps> {
+export class Header extends Component<ITheadProps> {
   public formatTableColumns = (key: string) => {
     return key.replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
@@ -18,9 +12,8 @@ export class Header extends Component<HeaderProps> {
       <ChakraThead
         sx={{
           '& > tr > th': {
-            borderBottom: '1px solid',
-            borderColor: this.props.borderColor,
             fontWeight: 'bold',
+            backgroundColor: this.props.borderColor,
             fontSize: 'sm',
             color: this.props.color,
           }

@@ -8,13 +8,21 @@ interface TableProps {
   children?: React.ReactNode
   data?: Array<Record<string, any>>
   columns?: ColumnTableProps[]
+  totalPage: number
+  limit?: number
+  currentPage?: number
+  onChangePage?: (page: number) => void
 }
 
 export const Container: React.FC<TableProps> = props => {
   const TableContextValue: ITableContext = {
     data: props.data || [],
     columns: props.columns || [],
-    loading: props.loading || false
+    loading: props.loading || false,
+    totalPage: props.totalPage,
+    limit: props.limit || 1,
+    currentPage: props.currentPage || 1,
+    onChangePage: props.onChangePage || (() => { })
   }
 
   return (

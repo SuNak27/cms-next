@@ -1,32 +1,55 @@
-import { Table as ChakraTable, useColorModeValue } from "@chakra-ui/react"
+import { Card, Flex, Table as ChakraTable, useColorModeValue } from "@chakra-ui/react"
 import { TableContainer } from "@chakra-ui/react"
 import { useContext } from "react"
 import { TableContext } from "../Table.Context"
 import { Body } from "./Body"
 import { Header } from "./Header"
+import { Pagination } from "./Pagination"
 
 export const Display: React.FC = () => {
   const tableContext = useContext(TableContext)
   const bodyBackgroundColor = useColorModeValue('gray.200', 'gray.600')
+  const bodyBorderColor = useColorModeValue('gray.200', 'gray.600')
   const bodyColor = useColorModeValue('gray', 'gray.300')
   const headerBorderColor = useColorModeValue('gray.200', 'gray.500')
   const headerColor = useColorModeValue('gray.600', 'gray.300')
   return (
-    <TableContainer py={5}>
-      <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
-        <Header
-          columns={tableContext.columns}
-          borderColor={headerBorderColor}
-          color={headerColor}
+    <>
+      <Flex justifyContent='end'>
+        <Pagination
+          totalPage={tableContext.totalPage || 1}
+          currentPage={tableContext.currentPage || 1}
+          onChange={tableContext.onChangePage || (() => { })}
         />
-        <Body
-          data={tableContext.data}
-          columns={tableContext.columns}
-          backgroundColor={bodyBackgroundColor}
-          color={bodyColor}
-          isLoading={tableContext.loading}
+      </Flex>
+      <Card overflow={'hidden'} rounded={'lg'}>
+        <TableContainer>
+          <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
+            <Header
+              columns={tableContext.columns}
+              borderColor={headerBorderColor}
+              color={headerColor}
+            />
+            <Body
+              data={tableContext.data}
+              columns={tableContext.columns}
+              backgroundColor={bodyBackgroundColor}
+              color={bodyColor}
+              isLoading={tableContext.loading}
+              borderColor={bodyBorderColor}
+            />
+          </ChakraTable>
+        </TableContainer>
+      </Card>
+
+      <Flex justifyContent='center'>
+        <Pagination
+          totalPage={tableContext.totalPage || 1}
+          currentPage={tableContext.currentPage || 1}
+          onChange={tableContext.onChangePage || (() => { })}
         />
-      </ChakraTable>
-    </TableContainer>
+      </Flex>
+
+    </>
   )
 }

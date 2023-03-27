@@ -1,3 +1,3 @@
-import { Explore } from "@/component/Screen";
+import { Product } from "@/component/Screen";
 
-export default Explore
+export default Product

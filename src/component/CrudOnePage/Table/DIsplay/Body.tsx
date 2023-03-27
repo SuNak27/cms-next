@@ -1,18 +1,8 @@
 import { CircularProgress, Flex, Tbody as ChakraTbody, Td, Text, Tr } from "@chakra-ui/react"
 import { Component } from "react"
-import { ColumnTableProps } from "../types"
+import { ITbodyProps } from "../types"
 
-interface BodyProps {
-  data: Array<Record<string, any>>
-  columns: ColumnTableProps[]
-  backgroundColor?: string
-  color?: string
-  isLoading?: boolean
-  isError?: boolean
-  emptyText?: string
-}
-
-export class Body extends Component<BodyProps> {
+export class Body extends Component<ITbodyProps> {
 
   public createNoColumn = (data: Array<Record<string, any>>) => {
     return data.map((item, index) => ({
@@ -42,34 +32,44 @@ export class Body extends Component<BodyProps> {
         ))}
       </Tr>
     ))
-
   }
 
+  public emptyRow = () => {
+    return (
+      <Tr>
+        <Td colSpan={this.props.columns.length}>
+          <Flex justifyContent={'center'}>
+            <Text>{this.props.emptyText || 'No Data'}</Text>
+          </Flex>
+        </Td>
+      </Tr>
+    )
+  }
+
+  public loading = () => {
+    return (
+      <Tr>
+        <Td colSpan={this.props.columns.length}>
+          <Flex justifyContent={'center'}>
+            <CircularProgress isIndeterminate color='green.300' size={6} />
+            <Text ml={2}>Loading...</Text>
+          </Flex>
+        </Td>
+      </Tr>
+    )
+  }
 
   render() {
     return (
-      <ChakraTbody>
-        {this.props.isLoading && (
-          <Tr>
-            <Td colSpan={this.props.columns.length}>
-              <Flex justifyContent={'center'}>
-                <CircularProgress isIndeterminate color='green.300' size={6} />
-                <Text ml={2}>Loading...</Text>
-              </Flex>
-            </Td>
-          </Tr>
-        )}
-        {!this.props.isLoading && this.props.data.length === 0 && (
-          <Tr>
-            <Td colSpan={this.props.columns.length}>
-              <Flex justifyContent={'center'}>
-                <Text>{this.props.emptyText || 'No Data'}</Text>
-              </Flex>
-            </Td>
-          </Tr>
-        )}
+      <ChakraTbody
+        border={`1px solid`}
+        borderColor={this.props.borderColor}
+        borderRadius={'lg'}
+      >
+        {this.props.isLoading && this.loading()}
+        {!this.props.isLoading && this.props.data.length === 0 && this.emptyRow()}
         {this.renderRow()}
-      </ChakraTbody >
+      </ChakraTbody>
     )
   }
 }
