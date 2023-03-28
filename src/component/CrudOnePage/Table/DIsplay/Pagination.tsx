@@ -5,8 +5,8 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IPaginationProps, PaginationItemProps } from "../types";
 
 export class Pagination extends Component<IPaginationProps> {
-  public isFirstPage = this.props.currentPage === 1;
-  public isLastPage = this.props.currentPage === this.props.totalPage;
+  // public isFirstPage = this.props.currentPage === 1;
+  // public isLastPage = this.props.currentPage === this.props.totalPage;
 
   public onChangePage = (page: number) => {
     this.props.onChange(page);
@@ -51,7 +51,7 @@ export class Pagination extends Component<IPaginationProps> {
       <this.PaginationItem
         key="prev"
         label={<FiChevronLeft />}
-        isDisabled={this.isFirstPage}
+        isDisabled={this.props.currentPage === 1}
         onPageChange={() => this.onChangePage(this.props.currentPage - 1)}
       />,
       startPage > 1 && (
@@ -77,7 +77,7 @@ export class Pagination extends Component<IPaginationProps> {
       <this.PaginationItem
         key="next"
         label={<FiChevronRight />}
-        isDisabled={this.isLastPage}
+        isDisabled={this.props.currentPage === this.props.totalPage}
         onPageChange={() => this.onChangePage(this.props.currentPage + 1)}
       />,
     ];
