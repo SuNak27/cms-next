@@ -22,7 +22,7 @@ export const Container: React.FC<TableProps> = props => {
     totalPage: props.totalPage,
     limit: props.limit || 1,
     currentPage: props.currentPage || 1,
-    onChangePage: props.onChangePage || (() => { })
+    onChangePage: props.onChangePage || (() => { }),
   }
 
   return (

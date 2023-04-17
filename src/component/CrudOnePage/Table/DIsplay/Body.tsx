@@ -3,11 +3,16 @@ import { Component } from "react"
 import { ITbodyProps } from "../types"
 
 export class Body extends Component<ITbodyProps> {
-
   public createNoColumn = (data: Array<Record<string, any>>) => {
-    return data.map((item, index) => ({
+    let no = 1;
+
+    if (this.props.currentPage > 1) {
+      no = (this.props.currentPage * this.props.limit) - this.props.limit + 1
+    }
+
+    return data.map((item) => ({
       ...item,
-      no: index + 1
+      no: no++
     }))
   }
 

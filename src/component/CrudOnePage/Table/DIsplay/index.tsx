@@ -37,6 +37,8 @@ export const Display: React.FC = () => {
               color={bodyColor}
               isLoading={tableContext.loading}
               borderColor={bodyBorderColor}
+              currentPage={tableContext.currentPage}
+              limit={tableContext.limit}
             />
           </ChakraTable>
         </TableContainer>
