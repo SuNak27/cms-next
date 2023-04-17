@@ -5,9 +5,6 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IPaginationProps, PaginationItemProps } from "../types";
 
 export class Pagination extends Component<IPaginationProps> {
-  // public isFirstPage = this.props.currentPage === 1;
-  // public isLastPage = this.props.currentPage === this.props.totalPage;
-
   public onChangePage = (page: number) => {
     this.props.onChange(page);
   };
