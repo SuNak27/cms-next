@@ -24,6 +24,7 @@ export interface ITbodyProps {
   isLoading?: boolean
   isError?: boolean
   emptyText?: string
+  startNumber?: number
 }
 
 export type PaginationItemProps = {
