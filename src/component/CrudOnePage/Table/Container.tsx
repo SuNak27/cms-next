@@ -12,6 +12,8 @@ interface TableProps {
   limit?: number
   currentPage?: number
   onChangePage?: (page: number) => void
+  search?: string
+  onChangeSearch?: (search: string) => void
 }
 
 export const Container: React.FC<TableProps> = props => {
@@ -23,6 +25,8 @@ export const Container: React.FC<TableProps> = props => {
     limit: props.limit || 1,
     currentPage: props.currentPage || 1,
     onChangePage: props.onChangePage || (() => { }),
+    search: props.search || "",
+    onChangeSearch: props.onChangeSearch || (() => { }),
   }
 
   return (

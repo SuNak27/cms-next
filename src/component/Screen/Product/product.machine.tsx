@@ -10,7 +10,7 @@ export interface Data {
 
 export type State =
   | { type: 'idle' }
-  | { type: 'loading'; page?: number; limit?: number, totalPage?: number }
+  | { type: 'loading'; page?: number; limit?: number, totalPage?: number, search?: string }
   |
   {
     type: 'success';
@@ -18,14 +18,16 @@ export type State =
     limit: number;
     totalPage: number
     page?: number;
+    search?: string;
   }
   | { type: 'error'; error: string };
 
 export type Action =
   | { type: 'FETCH' }
-  | { type: 'FETCH_SUCCESS'; data: Data[]; per_page: number; total_pages: number; page?: number }
+  | { type: 'FETCH_SUCCESS'; data: Data[]; per_page: number; total_pages: number; page?: number, search?: string }
   | { type: 'FETCH_ERROR'; message: string }
-  | { type: 'CHANGE_PAGE'; page: number };
+  | { type: 'CHANGE_PAGE'; page: number }
+  | { type: 'CHANGE_SEARCH'; search: string };
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -48,6 +50,11 @@ const reducer = (state: State, action: Action): State => {
       page: action.page,
       totalPage: state.type === 'success' ? state.totalPage : 1,
     }))
+    .with([{ type: 'success' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
+      type: 'loading',
+      search: action.search,
+      totalPage: state.type === 'success' ? state.totalPage : 1,
+    }))
     .otherwise(() => state);
 };
 
@@ -59,6 +66,7 @@ const onChange = (state: State, dispatch: (action: Action) => void) => {
         params: {
           page: action.page ?? 1,
           limit: action.limit ?? 10,
+          search: action.search ?? '',
         }
       })
         .then((res) => {
@@ -68,6 +76,7 @@ const onChange = (state: State, dispatch: (action: Action) => void) => {
             per_page: res.data.per_page,
             total_pages: res.data.total_pages,
             page: action.page,
+            search: action.search,
           });
         })
         .catch((err) => {

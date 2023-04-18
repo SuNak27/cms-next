@@ -36,6 +36,18 @@ export function Product() {
     .with({ type: "loading" }, (state) => state.page ?? 1)
     .otherwise(() => 1);
 
+  const search = match(state)
+    .with({ type: "success" }, (state) => state.search)
+    .otherwise(() => "");
+
+  const onChangeSearch = (search: string) => {
+    console.log(search);
+
+    match(state)
+      .with({ type: "success" }, () => dispatch({ type: "CHANGE_SEARCH", search }))
+      .otherwise(() => { });
+  };
+
   return (
     <CrudOnePage pageTitle="Product">
       <AppToolbar>
@@ -50,6 +62,8 @@ export function Product() {
         limit={limit}
         onChangePage={(page) => onChangePage(page)}
         currentPage={currentPage}
+        search={search}
+        onChangeSearch={(search) => onChangeSearch(search)}
       >
         <Table.Display />
       </Table.Container>

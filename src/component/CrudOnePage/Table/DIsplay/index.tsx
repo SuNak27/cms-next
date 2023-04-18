@@ -5,6 +5,7 @@ import { TableContext } from "../Table.Context"
 import { Body } from "./Body"
 import { Header } from "./Header"
 import { Pagination } from "./Pagination"
+import { Search } from "./Search"
 
 export const Display: React.FC = () => {
   const tableContext = useContext(TableContext)
@@ -15,7 +16,11 @@ export const Display: React.FC = () => {
   const headerColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <>
-      <Flex justifyContent='end'>
+      <Flex justifyContent='space-between'>
+        <Search
+          value={tableContext.search || ''}
+          onChange={tableContext.onChangeSearch || (() => { })}
+        />
         <Pagination
           totalPage={tableContext.totalPage || 1}
           currentPage={tableContext.currentPage || 1}
