@@ -3,6 +3,7 @@ import { getTitle } from "@/mixins";
 import { Box, Flex, useBreakpointValue, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export const DashLayout = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -15,10 +16,15 @@ export const DashLayout = ({ children }: { children: React.ReactNode }) => {
     md: <Sidebar onClose={() => onClose} />,
   });
 
+  useEffect(() => {
+    document.body.style.overflowY = 'scroll';
+  }, []);
+
   return (
     <>
       <Header title={title} />
-      <Box minH={'100vh'} bg={useColorModeValue('gray.100', 'gray.900')}>
+      <Box minH={'100vh'}
+        bg={useColorModeValue('gray.100', 'gray.900')}>
         <Flex>
           <Navbar onOpen={onOpen} />
         </Flex>

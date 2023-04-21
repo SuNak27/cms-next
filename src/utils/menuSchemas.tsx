@@ -1,12 +1,12 @@
 import {
   FiHome,
-  FiCompass,
   FiStar,
   FiSettings,
   FiUser,
   FiMousePointer,
   FiPieChart,
   FiInfo,
+  FiPackage,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 
@@ -19,11 +19,11 @@ export interface MenuSchemasProps {
 }
 
 export const MenuSchemas: Array<MenuSchemasProps> = [
-  { name: 'Explore', icon: FiCompass, link: '/explore' },
+  { name: 'Home', icon: FiHome, link: '/' },
   {
-    labelHeading: 'dashboard',
+    labelHeading: 'Menu',
     children: [
-      { name: 'Home', icon: FiHome, link: '/' },
+      { name: 'Product', icon: FiPackage, link: '/product' },
       { name: 'About', icon: FiInfo, link: '/about' },
       { name: 'Article', icon: FiInfo, link: '/article' },
       {
