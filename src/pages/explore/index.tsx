@@ -1,3 +1,3 @@
-import { Product } from "@/component/Screen";
+import { Product } from "@/screen";
 
 export default Product

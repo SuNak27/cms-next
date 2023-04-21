@@ -66,7 +66,7 @@ const onChange = (state: State, dispatch: (action: Action) => void) => {
         params: {
           page: action.page ?? 1,
           limit: action.limit ?? 10,
-          search: action.search ?? '',
+          cari: action.search ?? '',
         }
       })
         .then((res) => {
