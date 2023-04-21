@@ -10,6 +10,7 @@ export interface ITableContext {
   currentPage: number;
   search: string;
   onChangeSearch: (search: string) => void;
+  onChangeLimit: (limit: number) => void;
 }
 
 export const TableContext = createContext<ITableContext>({
@@ -22,4 +23,5 @@ export const TableContext = createContext<ITableContext>({
   currentPage: 1,
   search: "",
   onChangeSearch: () => { },
+  onChangeLimit: () => { },
 });

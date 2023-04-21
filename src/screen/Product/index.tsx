@@ -21,6 +21,7 @@ export function Product() {
 
   const limit = match(state)
     .with({ type: "success" }, (state) => state.limit)
+    .with({ type: "loading" }, (state) => state.limit ?? 10)
     .otherwise(() => 1);
 
   const loading = match(state).with({ type: "loading" }, () => true).otherwise(() => false);
@@ -41,10 +42,14 @@ export function Product() {
     .otherwise(() => "");
 
   const onChangeSearch = (search: string) => {
-    console.log(search);
-
     match(state)
       .with({ type: "success" }, () => dispatch({ type: "CHANGE_SEARCH", search }))
+      .otherwise(() => { });
+  };
+
+  const onChangeLimit = (limit: number) => {
+    match(state)
+      .with({ type: "success" }, () => dispatch({ type: "CHANGE_LIMIT", limit }))
       .otherwise(() => { });
   };
 
@@ -64,6 +69,7 @@ export function Product() {
         currentPage={currentPage}
         search={search}
         onChangeSearch={(search) => onChangeSearch(search)}
+        onChangeLimit={(limit) => onChangeLimit(limit)}
       >
         <Table.Display />
       </Table.Container>

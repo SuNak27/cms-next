@@ -27,7 +27,8 @@ export type Action =
   | { type: 'FETCH_SUCCESS'; data: Data[]; per_page: number; total_pages: number; page?: number, search?: string }
   | { type: 'FETCH_ERROR'; message: string }
   | { type: 'CHANGE_PAGE'; page: number }
-  | { type: 'CHANGE_SEARCH'; search: string };
+  | { type: 'CHANGE_SEARCH'; search: string }
+  | { type: 'CHANGE_LIMIT'; limit: number };
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -48,11 +49,17 @@ const reducer = (state: State, action: Action): State => {
     .with([{ type: 'success' }, { type: 'CHANGE_PAGE' }], ([_, action]) => ({
       type: 'loading',
       page: action.page,
+      limit: state.type === 'success' ? state.limit : 10,
       totalPage: state.type === 'success' ? state.totalPage : 1,
     }))
     .with([{ type: 'success' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
       type: 'loading',
       search: action.search,
+      totalPage: state.type === 'success' ? state.totalPage : 1,
+    }))
+    .with([{ type: 'success' }, { type: 'CHANGE_LIMIT' }], ([_, action]) => ({
+      type: 'loading',
+      limit: action.limit,
       totalPage: state.type === 'success' ? state.totalPage : 1,
     }))
     .otherwise(() => state);

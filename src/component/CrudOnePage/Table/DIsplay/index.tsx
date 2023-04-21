@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { TableContext } from "../Table.Context"
 import { Body } from "./Body"
 import { Header } from "./Header"
+import { Limit } from "./Limit"
 import { Pagination } from "./Pagination"
 import { Search } from "./Search"
 
@@ -17,10 +18,13 @@ export const Display: React.FC = () => {
   return (
     <>
       <Flex justifyContent='space-between'>
-        <Search
-          value={tableContext.search || ''}
-          onChange={tableContext.onChangeSearch || (() => { })}
-        />
+        <Flex gap={3}>
+          <Search
+            value={tableContext.search || ''}
+            onChange={tableContext.onChangeSearch || (() => { })}
+          />
+          <Limit value={tableContext.limit || 1} onChange={tableContext.onChangeLimit || (() => { })} />
+        </Flex>
         <Pagination
           totalPage={tableContext.totalPage || 1}
           currentPage={tableContext.currentPage || 1}
