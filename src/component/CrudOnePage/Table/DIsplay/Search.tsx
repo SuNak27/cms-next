@@ -2,14 +2,11 @@ import { useDebounce } from "@/utils/debounce";
 import { HStack, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import * as React from "react";
 import { FiSearch } from "react-icons/fi";
+import { TableContext } from "../Table.Context";
 
-interface ISearchProps {
-  value: string;
-  onChange: (value: string) => void;
-}
-
-export const Search = ({ value, onChange }: ISearchProps) => {
-  const [valueDebounce, setValueDebounce] = React.useState(value);
+export const Search = () => {
+  const tableContext = React.useContext(TableContext);
+  const [valueDebounce, setValueDebounce] = React.useState(tableContext.search || "");
   const searchQuery = useDebounce(valueDebounce, 500)
 
   const onChangeDebounce = (value: string) => {
@@ -19,7 +16,7 @@ export const Search = ({ value, onChange }: ISearchProps) => {
   React.useEffect(() => {
     if (searchQuery === valueDebounce || searchQuery === "") searchCharacter();
     async function searchCharacter() {
-      onChange(searchQuery);
+      tableContext.onChangeSearch(searchQuery);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
@@ -31,7 +28,7 @@ export const Search = ({ value, onChange }: ISearchProps) => {
           <FiSearch />
         </InputLeftElement>
         <Input
-          value={value || valueDebounce}
+          value={tableContext.search || valueDebounce}
           placeholder="Search"
           onChange={(e) => onChangeDebounce(e.target.value)}
         />

@@ -1,4 +1,4 @@
-import { AppToolbar, ColumnTableProps, CreateButton, CrudOnePage, Table } from "@/component";
+import { AppToolbar, ColumnTableProps, CreateButton, CrudOnePage, Table, Limit, Search } from "@/component";
 import { match } from "ts-pattern";
 import { useProductMachine } from "./product.machine";
 
@@ -71,6 +71,10 @@ export function Product() {
         onChangeSearch={(search) => onChangeSearch(search)}
         onChangeLimit={(limit) => onChangeLimit(limit)}
       >
+        <Table.Toolbar>
+          <Search />
+          <Limit />
+        </Table.Toolbar>
         <Table.Display />
       </Table.Container>
     </CrudOnePage>

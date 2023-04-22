@@ -1,3 +1,4 @@
 export * from './types'
 export * from './Container'
-export * from './DIsplay'
+export * from './Display'
+export * from './Toolbar'

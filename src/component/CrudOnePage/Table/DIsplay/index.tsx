@@ -4,9 +4,7 @@ import { useContext } from "react"
 import { TableContext } from "../Table.Context"
 import { Body } from "./Body"
 import { Header } from "./Header"
-import { Limit } from "./Limit"
 import { Pagination } from "./Pagination"
-import { Search } from "./Search"
 
 export const Display: React.FC = () => {
   const tableContext = useContext(TableContext)
@@ -17,7 +15,7 @@ export const Display: React.FC = () => {
   const headerColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <>
-      <Flex justifyContent='space-between'>
+      {/* <Flex justifyContent='space-between'>
         <Flex gap={3}>
           <Search
             value={tableContext.search || ''}
@@ -30,7 +28,7 @@ export const Display: React.FC = () => {
           currentPage={tableContext.currentPage || 1}
           onChange={tableContext.onChangePage || (() => { })}
         />
-      </Flex>
+      </Flex> */}
       <Card overflow={'hidden'} rounded={'lg'}>
         <TableContainer>
           <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
