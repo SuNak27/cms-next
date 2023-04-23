@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react"
-import { Pagination } from "../Display/Pagination"
 import * as React from "react"
+import { Pagination } from "../Display/Pagination"
 import { TableContext } from "../Table.Context"
 
 interface CardToolbarProps {
