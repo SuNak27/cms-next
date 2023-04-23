@@ -6,6 +6,7 @@ export interface ColumnTableProps {
 export interface IPaginationProps {
   totalPage: number;
   currentPage: number;
+  limitPage?: number;
   onChange: (page: number) => void;
 }
 

@@ -8,6 +8,7 @@ import { ColumnTableProps } from "./types"
 interface TableProps {
   children?: React.ReactNode
   columns?: ColumnTableProps[]
+  limitPageNumber?: number
 }
 
 export const Container: React.FC<TableProps> = props => {
@@ -66,7 +67,8 @@ export const Container: React.FC<TableProps> = props => {
     onChangePage: onChangePage || (() => { }),
     search: search || "",
     onChangeSearch: onChangeSearch || (() => { }),
-    onChangeLimit: onChangeLimit || (() => { })
+    onChangeLimit: onChangeLimit || (() => { }),
+    limitPageNumber: props.limitPageNumber || 4,
   }
 
   return (

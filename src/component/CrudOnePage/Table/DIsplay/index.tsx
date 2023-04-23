@@ -15,20 +15,6 @@ export const Display: React.FC = () => {
   const headerColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <>
-      {/* <Flex justifyContent='space-between'>
-        <Flex gap={3}>
-          <Search
-            value={tableContext.search || ''}
-            onChange={tableContext.onChangeSearch || (() => { })}
-          />
-          <Limit value={tableContext.limit || 1} onChange={tableContext.onChangeLimit || (() => { })} />
-        </Flex>
-        <Pagination
-          totalPage={tableContext.totalPage || 1}
-          currentPage={tableContext.currentPage || 1}
-          onChange={tableContext.onChangePage || (() => { })}
-        />
-      </Flex> */}
       <Card overflow={'hidden'} rounded={'lg'}>
         <TableContainer>
           <ChakraTable variant='unstyled' colorScheme={useColorModeValue("gray", "whiteAlpha")}>
@@ -51,7 +37,7 @@ export const Display: React.FC = () => {
         </TableContainer>
       </Card>
 
-      <Flex justifyContent='center'>
+      <Flex justifyContent='center' flexWrap={'wrap'}>
         <Pagination
           totalPage={tableContext.totalPage || 1}
           currentPage={tableContext.currentPage || 1}

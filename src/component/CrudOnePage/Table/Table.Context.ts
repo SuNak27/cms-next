@@ -11,6 +11,7 @@ export interface ITableContext {
   search: string;
   onChangeSearch: (search: string) => void;
   onChangeLimit: (limit: number) => void;
+  limitPageNumber?: number;
 }
 
 export const TableContext = createContext<ITableContext>({
@@ -24,4 +25,5 @@ export const TableContext = createContext<ITableContext>({
   search: "",
   onChangeSearch: () => { },
   onChangeLimit: () => { },
+  limitPageNumber: 4
 });

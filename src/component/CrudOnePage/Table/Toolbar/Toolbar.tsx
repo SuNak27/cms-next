@@ -11,7 +11,7 @@ interface CardToolbarProps {
 export const Toolbar = ({ children, pagination = true }: CardToolbarProps) => {
   const tableContext = React.useContext(TableContext)
   return (
-    <Flex justifyContent='space-between'>
+    <Flex justifyContent='space-between' flexWrap={'wrap'}>
       <Flex gap={3}>
         {children}
       </Flex>

@@ -15,7 +15,7 @@ export class Pagination extends Component<IPaginationProps> {
         size="sm"
         aria-label={`Go to page ${label}`}
         isDisabled={isDisabled}
-        _hover={{ bg: "blue.500", color: "white" }}
+        _hover={{ bg: !isActive && "blue.200", color: !isActive && "white" }}
         onClick={onPageChange}
         icon={<> {label} </>}
         bg={isActive ? "blue.500" : undefined}
@@ -25,7 +25,7 @@ export class Pagination extends Component<IPaginationProps> {
   }
 
   public renderPaginationItems() {
-    const pageNumbersToShow = 5;
+    const pageNumbersToShow = this.props.limitPage || 4;
     let startPage = this.props.currentPage - Math.floor(pageNumbersToShow / 2);
     if (startPage < 1) {
       startPage = 1;
@@ -41,7 +41,10 @@ export class Pagination extends Component<IPaginationProps> {
 
     const pages = range(startPage, endPage + 1);
 
-    const showLeftEllipsis = startPage > 2;
+    if (this.props.currentPage > 3) {
+      pages.shift();
+    }
+    const showLeftEllipsis = startPage > 1;
     const showRightEllipsis = endPage < this.props.totalPage - 1;
 
     const paginationItems = [
