@@ -5,8 +5,11 @@ import {
   CrudOnePage,
   Table,
   Limit,
-  Search
+  Search,
+  Modal
 } from "@/component";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormikProps } from "formik/dist/types";
 
 const column: ColumnTableProps[] = [
   { key: "no" },
@@ -16,6 +19,18 @@ const column: ColumnTableProps[] = [
 export default function Product() {
   return (
     <CrudOnePage pageTitle="Product" apiUrl='/product'>
+
+      <Modal
+        initialValues={{ name: '' }}
+      >
+        {({ values, handleChange }: FormikProps<any>) => (
+          <FormControl>
+            <FormLabel>First Name</FormLabel>
+            <Input value={values.name} onChange={handleChange('name')} />
+          </FormControl>
+        )}
+      </Modal>
+
       <AppToolbar>
         <CreateButton />
       </AppToolbar>
@@ -27,6 +42,6 @@ export default function Product() {
         </Table.Toolbar>
         <Table.Display />
       </Table.Container>
-    </CrudOnePage>
+    </CrudOnePage >
   );
 }
