@@ -17,6 +17,8 @@ export type State =
     search?: string;
   }
   | { type: 'creating' }
+  | { type: 'editing' }
+  | { type: 'viewing' }
   | { type: 'error'; error: string };
 
 export type Action =
@@ -26,7 +28,9 @@ export type Action =
   | { type: 'CHANGE_PAGE'; page: number }
   | { type: 'CHANGE_SEARCH'; search: string }
   | { type: 'CHANGE_LIMIT'; limit: number }
-  | { type: 'CREATE' };
+  | { type: 'CREATE' }
+  | { type: 'EDIT' }
+  | { type: 'VIEW' };
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -61,6 +65,8 @@ const reducer = (state: State, action: Action): State => {
       totalPage: state.type === 'success' ? state.totalPage : 1,
     }))
     .with([{ type: 'success' }, { type: 'CREATE' }], () => ({ type: 'creating' }))
+    .with([{ type: 'success' }, { type: 'EDIT' }], () => ({ type: 'editing' }))
+    .with([{ type: 'success' }, { type: 'VIEW' }], () => ({ type: 'viewing' }))
     .otherwise(() => state);
 };
 
