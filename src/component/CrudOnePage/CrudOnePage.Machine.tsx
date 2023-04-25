@@ -17,8 +17,7 @@ export type State =
     search?: string;
   }
   | { type: 'creating' }
-  | { type: 'editing' }
-  | { type: 'viewing' }
+  | { type: 'updating' }
   | { type: 'error'; error: string };
 
 export type Action =
@@ -29,8 +28,9 @@ export type Action =
   | { type: 'CHANGE_SEARCH'; search: string }
   | { type: 'CHANGE_LIMIT'; limit: number }
   | { type: 'CREATE' }
-  | { type: 'EDIT' }
-  | { type: 'VIEW' };
+  | { type: 'CREATE_SUCCESS', payload: any }
+  | { type: 'UPDATE' }
+  | { type: 'UPDATED', payload: any };
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -65,8 +65,13 @@ const reducer = (state: State, action: Action): State => {
       totalPage: state.type === 'success' ? state.totalPage : 1,
     }))
     .with([{ type: 'success' }, { type: 'CREATE' }], () => ({ type: 'creating' }))
-    .with([{ type: 'success' }, { type: 'EDIT' }], () => ({ type: 'editing' }))
-    .with([{ type: 'success' }, { type: 'VIEW' }], () => ({ type: 'viewing' }))
+    .with([{ type: 'success' }, { type: 'UPDATE' }], () => ({ type: 'updating' }))
+    .with([{ type: 'creating' }, { type: 'CREATE_SUCCESS' }], ([_, action]) => ({
+      type: 'success',
+      data: state.type === 'success' ? [...state.data, action.payload] : [],
+      limit: state.type === 'success' ? state.limit : 10,
+      totalPage: state.type === 'success' ? state.totalPage : 1,
+    }))
     .otherwise(() => state);
 };
 

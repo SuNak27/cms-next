@@ -4,7 +4,9 @@ import { FormikValues } from "formik";
 import { FormikProps } from "formik/dist/types";
 
 import * as React from "react"
+import { match } from "ts-pattern";
 import { CrudOnePageContext } from "../CrudOnePage.Context";
+import { useCrudOnePageMachine } from "../CrudOnePage.Machine";
 
 interface ModalProps {
   children: React.ReactNode | (({
@@ -19,6 +21,7 @@ interface ModalProps {
 
 export function Modal({ size = 'md', children, initialValues, formKeys, modalTitle = '' }: ModalProps) {
   const crudContext = React.useContext(CrudOnePageContext);
+  const [state, dispatch] = useCrudOnePageMachine();
   const { isOpen, onClose } = crudContext.onCreateClick;
 
   if (formKeys && initialValues) {
@@ -36,6 +39,13 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
     //  else if (crudContext.onUpdateClick.isOpen) {
     //   return 'Update'
     // }
+  }
+
+  const onSubmit = (values: FormikValues) => {
+    match(state)
+      .with({ type: 'creating' }, () => dispatch({ type: 'CREATED', payload: values }))
+      .with({ type: 'updating' }, () => dispatch({ type: 'UPDATED', payload: values }))
+      .otherwise(() => console.log('No match'))
   }
 
   return (
