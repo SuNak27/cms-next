@@ -1,12 +1,11 @@
-import { Button, Modal as ChakraModal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react"
+import { Button, Modal as ChakraModal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Spinner } from "@chakra-ui/react"
+import { match } from "ts-pattern";
 import { Formik, Form } from "formik";
 import { FormikValues } from "formik";
 import { FormikProps } from "formik/dist/types";
 
 import * as React from "react"
-import { match } from "ts-pattern";
 import { CrudOnePageContext } from "../CrudOnePage.Context";
-import { useCrudOnePageMachine } from "../CrudOnePage.Machine";
 
 interface ModalProps {
   children: React.ReactNode | (({
@@ -21,7 +20,6 @@ interface ModalProps {
 
 export function Modal({ size = 'md', children, initialValues, formKeys, modalTitle = '' }: ModalProps) {
   const crudContext = React.useContext(CrudOnePageContext);
-  const [state, dispatch] = useCrudOnePageMachine();
   const { isOpen, onClose } = crudContext.onCreateClick;
 
   if (formKeys && initialValues) {
@@ -42,10 +40,11 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
   }
 
   const onSubmit = (values: FormikValues) => {
-    match(state)
-      .with({ type: 'creating' }, () => dispatch({ type: 'CREATED', payload: values }))
-      .with({ type: 'updating' }, () => dispatch({ type: 'UPDATED', payload: values }))
-      .otherwise(() => console.log('No match'))
+    match(crudContext.state.type)
+      .with('creating', () => {
+        crudContext.dispatch({ type: 'CREATE_DATA', payload: values })
+      })
+      .otherwise(() => { })
   }
 
   return (
@@ -59,7 +58,8 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
             {}
           }
           onSubmit={(values, { setSubmitting }) => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            onSubmit(values);
             setSubmitting(false);
           }}
         >
@@ -77,7 +77,11 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
                     Close
                   </Button>
                   <Button variant='solid' colorScheme='green' type='submit'>
-                    Save
+                    {match(crudContext.state.type)
+                      .with('creating_data', () =>
+                        <Spinner size={"sm"} />
+                      )
+                      .otherwise(() => 'Save')}
                   </Button>
                 </ModalFooter>
               </ModalContent>

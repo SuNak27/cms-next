@@ -1,7 +1,7 @@
 import { Button } from "../Button"
 import { CrudOnePageContext } from "./CrudOnePage.Context";
 import * as React from 'react'
-import { useCrudOnePageMachine } from "./CrudOnePage.Machine";
+// import { useCrudOnePageMachine } from "./CrudOnePage.Machine";
 import { match } from "ts-pattern";
 
 interface CreateButtonProps {
@@ -9,15 +9,12 @@ interface CreateButtonProps {
 }
 
 export const CreateButton = ({ text }: CreateButtonProps) => {
-  const [state, dispatch] = useCrudOnePageMachine()
   const curdContext = React.useContext(CrudOnePageContext);
 
   const onClick = () => {
-    console.log('state.type', state.type);
-
-    match(state.type)
+    match(curdContext.state.type)
       .with('success', () => {
-        dispatch({ type: 'CREATE' })
+        curdContext.dispatch({ type: 'CREATE' })
       })
       .otherwise(() => { })
 
