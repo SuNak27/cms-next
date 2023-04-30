@@ -1,12 +1,6 @@
 import { UseDisclosureReturn } from '@chakra-ui/react'
 import { createContext } from 'react'
-
-type UseDisclosureReturn = {
-  isOpen: boolean
-  onOpen: () => void
-  onClose: () => void
-  onToggle: () => void
-}
+import { Action, State } from './CrudOnePage.Machine'
 
 export interface ICrudOnePageContext {
   pageTitle: string
