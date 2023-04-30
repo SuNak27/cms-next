@@ -58,7 +58,6 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
             {}
           }
           onSubmit={(values, { setSubmitting }) => {
-            // alert(JSON.stringify(values, null, 2));
             onSubmit(values);
             setSubmitting(false);
           }}

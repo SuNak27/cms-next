@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const Axios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -13,6 +14,11 @@ Axios.interceptors.request.use(
   },
 
   (error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.response.data.message,
+    });
     return Promise.reject(error);
   }
 );
@@ -23,6 +29,11 @@ Axios.interceptors.response.use(
   },
 
   (error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.response.data.message,
+    });
     return Promise.reject(error);
   }
 );

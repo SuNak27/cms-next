@@ -27,6 +27,7 @@ export type State =
   }
   | { type: 'creating_data', payload: any }
   | { type: 'creating_success' }
+  | { type: 'creating_error', message: string }
   | { type: 'updating' }
   | { type: 'error'; error: string };
 
@@ -40,6 +41,7 @@ export type Action =
   | { type: 'CREATE' }
   | { type: 'CREATE_DATA', payload: any }
   | { type: 'CREATE_SUCCESS' }
+  | { type: 'CREATE_ERROR', message: string }
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -94,6 +96,11 @@ const reducer = (state: State, action: Action): State => {
       type: 'creating_success',
     }))
     .with([{ type: 'creating_success' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
+    .with([{ type: 'creating_data' }, { type: 'CREATE_ERROR' }], ([_, action]) => ({
+      type: 'creating_error',
+      message: action.message,
+    }))
+    .with([{ type: 'creating_error' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
     .otherwise(() => state);
 };
 
@@ -129,10 +136,12 @@ const onChange = (state: State, dispatch: (action: Action) => void, apiUrl: stri
           dispatch({ type: 'CREATE_SUCCESS' });
         })
         .catch((err) => {
-          dispatch({ type: 'FETCH_ERROR', message: err.message });
+          onCreateClick.onClose();
+          dispatch({ type: 'CREATE_ERROR', message: err.message });
         });
     })
     .with({ type: 'creating_success' }, () => dispatch({ type: 'FETCH' }))
+    .with({ type: 'creating_error' }, () => dispatch({ type: 'FETCH' }))
     .otherwise(() => null);
 }
 

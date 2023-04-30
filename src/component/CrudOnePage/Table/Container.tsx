@@ -34,8 +34,6 @@ export const Container: React.FC<TableProps> = props => {
   const loading = match(state).with({ type: "loading" }, () => true).otherwise(() => false);
 
   const onChangePage = (page: number) => {
-    console.log(page);
-
     dispatch({ type: "CHANGE_PAGE", page });
   };
 
