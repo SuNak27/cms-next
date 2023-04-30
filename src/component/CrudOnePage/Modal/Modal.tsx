@@ -3,6 +3,7 @@ import { match } from "ts-pattern";
 import { Formik, Form } from "formik";
 import { FormikValues } from "formik";
 import { FormikProps } from "formik/dist/types";
+import * as Yup from 'yup';
 
 import * as React from "react"
 import { CrudOnePageContext } from "../CrudOnePage.Context";
@@ -16,9 +17,10 @@ interface ModalProps {
   initialValues?: FormikValues
   formKeys?: string[]
   modalTitle: string
+  validationSchema?: Yup.ObjectSchema<any>
 }
 
-export function Modal({ size = 'md', children, initialValues, formKeys, modalTitle = '' }: ModalProps) {
+export function Modal({ size = 'md', children, initialValues, formKeys, modalTitle = '', validationSchema }: ModalProps) {
   const crudContext = React.useContext(CrudOnePageContext);
   const { isOpen, onClose } = crudContext.onCreateClick;
 
@@ -61,14 +63,15 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
             onSubmit(values);
             setSubmitting(false);
           }}
+          validationSchema={validationSchema}
         >
-          {({ values, handleChange }: FormikProps<any>) => (
+          {({ errors, values, handleChange, touched }: FormikProps<any>) => (
             <Form>
               <ModalContent>
                 <ModalHeader>{`${title()} ${modalTitle}`}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                  {typeof children === 'function' ? children({ values, handleChange }) : children}
+                  {typeof children === 'function' ? children({ values, handleChange, errors, touched }) : children}
                 </ModalBody>
 
                 <ModalFooter>
