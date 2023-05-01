@@ -22,30 +22,36 @@ interface ModalProps {
 
 export function Modal({ size = 'md', children, initialValues, formKeys, modalTitle = '', validationSchema }: ModalProps) {
   const crudContext = React.useContext(CrudOnePageContext);
-  const { isOpen, onClose } = crudContext.onCreateClick;
+  const isOpen = crudContext.modal.isOpen;
+
+  const onClose = () => {
+    crudContext.modal.onClose()
+  }
+
+  if (crudContext.state.type === 'updating') {
+    initialValues = crudContext.state.payload
+  }
 
   if (formKeys && initialValues) {
     formKeys.forEach(key => {
-      if (!initialValues[key]) {
-        initialValues[key] = ''
+      if (initialValues) {
+        initialValues[key] = crudContext.state.payload[key]
       }
     })
   }
 
   const title = () => {
-    if (crudContext.onCreateClick.isOpen) {
+    if (crudContext.state.type === 'creating' || crudContext.state.type === 'creating_data') {
       return 'Create'
+    } else if (crudContext.state.type === 'updating' || crudContext.state.type === 'updating_data') {
+      return 'Update'
     }
-    //  else if (crudContext.onUpdateClick.isOpen) {
-    //   return 'Update'
-    // }
   }
 
   const onSubmit = (values: FormikValues) => {
     match(crudContext.state.type)
-      .with('creating', () => {
-        crudContext.dispatch({ type: 'CREATE_DATA', payload: values })
-      })
+      .with('creating', () => crudContext.dispatch({ type: 'CREATE_DATA', payload: values }))
+      .with('updating', () => crudContext.dispatch({ type: 'UPDATE_DATA', payload: values }))
       .otherwise(() => { })
   }
 
@@ -81,6 +87,9 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
                   <Button variant='solid' colorScheme='green' type='submit'>
                     {match(crudContext.state.type)
                       .with('creating_data', () =>
+                        <Spinner size={"sm"} />
+                      )
+                      .with('updating_data', () =>
                         <Spinner size={"sm"} />
                       )
                       .otherwise(() => 'Save')}

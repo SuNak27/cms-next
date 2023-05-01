@@ -1,8 +1,8 @@
 import { CircularProgress, Flex, Tbody as ChakraTbody, Td, Text, Tr } from "@chakra-ui/react"
-import { Component } from "react"
+import * as React from "react"
 import { ITbodyProps } from "../types"
 
-export class Body extends Component<ITbodyProps> {
+export class Body extends React.Component<ITbodyProps> {
   public createNoColumn = (data: Array<Record<string, any>>) => {
     let no = 1;
 
@@ -14,6 +14,10 @@ export class Body extends Component<ITbodyProps> {
       ...item,
       no: no++
     }))
+  }
+
+  public onRowDoubleClick = (item: Record<string, any>) => {
+    this.props.onRowDoubleClick && this.props.onRowDoubleClick(item);
   }
 
   public renderRow = () => {
@@ -28,6 +32,7 @@ export class Body extends Component<ITbodyProps> {
           cursor: 'pointer',
           color: this.props.color
         }}
+        onDoubleClick={() => this.onRowDoubleClick(item)}
       >
         {this.props.columns.map((column, index) => (
           column.key !== 'id' &&

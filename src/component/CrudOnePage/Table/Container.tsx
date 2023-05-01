@@ -1,7 +1,6 @@
 import { Box, Card, CardBody } from "@chakra-ui/react"
 import React from "react"
 import { CrudOnePageContext } from "../CrudOnePage.Context"
-import { match } from "ts-pattern"
 import { ITableContext, TableContext } from "./Table.Context"
 import { ColumnTableProps } from "./types"
 
@@ -14,52 +13,28 @@ interface TableProps {
 export const Container: React.FC<TableProps> = props => {
   const { state, dispatch } = React.useContext(CrudOnePageContext);
 
-  const data = match(state)
-    .with({ type: "success" }, (state) => state.data)
-    .with({ type: "creating" }, (state) => state.data)
-    .otherwise(() => []);
+  const data = state.data ?? [];
 
-  const totalPage = match(state)
-    .with({ type: "success" }, (state) => state.totalPage)
-    .with({ type: "creating" }, (state) => state.totalPage)
-    .with({ type: "loading" }, (state) => state.totalPage ?? 1)
-    .otherwise(() => 1);
+  const totalPage = state.totalPage ?? 1;
 
-  const limit = match(state)
-    .with({ type: "success" }, (state) => state.limit)
-    .with({ type: "creating" }, (state) => state.limit)
-    .with({ type: "loading" }, (state) => state.limit ?? 10)
-    .otherwise(() => 1);
+  const limit = state.limit ?? 10;
 
-  const loading = match(state).with({ type: "loading" }, () => true).otherwise(() => false);
+  const loading = state.type === "fetching";
 
   const onChangePage = (page: number) => {
     dispatch({ type: "CHANGE_PAGE", page });
   };
 
-  const currentPage = match(state)
-    .with({ type: "success" }, (state) => state.page)
-    .with({ type: "creating" }, (state) => state.page)
-    .with({ type: "loading" }, (state) => state.page ?? 1)
-    .otherwise(() => 1);
+  const currentPage = state.page;
 
-  const search = match(state)
-    .with({ type: "success" }, (state) => state.search)
-    .with({ type: "creating" }, (state) => state.search)
-    .otherwise(() => "");
+  const search = state.search;
 
   const onChangeSearch = (search: string) => {
-    match(state)
-      .with({ type: "success" }, () => dispatch({ type: "CHANGE_SEARCH", search }))
-      .with({ type: "creating" }, () => dispatch({ type: "CHANGE_SEARCH", search }))
-      .otherwise(() => { });
+    dispatch({ type: "CHANGE_SEARCH", search });
   };
 
   const onChangeLimit = (limit: number) => {
-    match(state)
-      .with({ type: "success" }, () => dispatch({ type: "CHANGE_LIMIT", limit }))
-      .with({ type: "creating" }, () => dispatch({ type: "CHANGE_LIMIT", limit }))
-      .otherwise(() => { });
+    dispatch({ type: "CHANGE_LIMIT", limit });
   };
 
   const TableContextValue: ITableContext = {

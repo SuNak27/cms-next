@@ -4,32 +4,34 @@ import React from "react";
 import { match } from "ts-pattern";
 import { UseDisclosureReturn } from '@chakra-ui/react';
 
-export type State =
-  | { type: 'idle' }
-  | { type: 'loading'; page?: number; limit?: number, totalPage?: number, search?: string }
-  |
-  {
-    type: 'success';
-    data: any[];
-    limit: number;
-    totalPage: number
-    page?: number;
-    search?: string;
-  }
-  |
-  {
-    type: 'creating';
-    data: any[];
-    limit: number;
-    totalPage: number
-    page?: number;
-    search?: string;
-  }
-  | { type: 'creating_data', payload: any }
-  | { type: 'creating_success' }
-  | { type: 'creating_error', message: string }
-  | { type: 'updating' }
-  | { type: 'error'; error: string };
+export type State = {
+  type:
+  | 'idle'
+  | 'fetching'
+  | 'fetching_success'
+  | 'fetching_error'
+  | 'creating'
+  | 'creating_data'
+  | 'creating_success'
+  | 'creating_error'
+  | 'updating'
+  | 'updating_data'
+  | 'updating_success'
+  | 'updating_error'
+  | 'deleting'
+  | 'deleting_cancel'
+  | 'deleting_success'
+  | 'deleting_error',
+  data?: any[],
+  limit?: number,
+  totalPage?: number,
+  page?: number,
+  search?: string,
+  error?: string,
+  message?: string,
+  payload?: any,
+  id?: number,
+};
 
 export type Action =
   | { type: 'FETCH' }
@@ -42,77 +44,141 @@ export type Action =
   | { type: 'CREATE_DATA', payload: any }
   | { type: 'CREATE_SUCCESS' }
   | { type: 'CREATE_ERROR', message: string }
+  | { type: 'UPDATE', payload: any }
+  | { type: 'UPDATE_DATA', payload: any }
+  | { type: 'UPDATE_SUCCESS' }
+  | { type: 'UPDATE_ERROR', message: string }
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
-    .with([{ type: 'idle' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
-    .with([{ type: 'loading' }, { type: 'FETCH_SUCCESS' }], ([_, action]) => ({
-      type: 'success',
+    .with([{ type: 'idle' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1,
+    }))
+    .with([{ type: 'fetching' }, { type: 'FETCH_SUCCESS' }], ([_, action]) => ({
+      type: 'fetching_success',
       data: action.data,
       limit: action.per_page,
       totalPage: action.total_pages,
       page: action.page,
     }))
-    .with([{ type: 'loading' }, { type: 'FETCH_ERROR' }], ([_, action]) => ({
-      type: 'error',
+    .with([{ type: 'fetching' }, { type: 'FETCH_ERROR' }], ([_, action]) => ({
+      type: 'fetching_error',
       error: action.message,
     }))
-    .with([{ type: 'error' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
-    .with([{ type: 'success' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
-    .with([{ type: 'success' }, { type: 'CHANGE_PAGE' }], ([_, action]) => ({
-      type: 'loading',
-      page: action.page,
-      limit: state.type === 'success' ? state.limit : 10,
-      totalPage: state.type === 'success' ? state.totalPage : 1,
-    }))
-    .with([{ type: 'creating' }, { type: 'CHANGE_PAGE' }], ([state, action]) => ({
-      type: 'loading',
+    .with([{ type: 'fetching_error' }, { type: 'FETCH' }], () => ({ type: 'fetching' }))
+    .with([{ type: 'fetching_success' }, { type: 'FETCH' }], () => ({ type: 'fetching' }))
+    .with([{ type: 'fetching_success' }, { type: 'CHANGE_PAGE' }], ([_, action]) => ({
+      type: 'fetching',
       page: action.page,
       limit: state.limit,
       totalPage: state.totalPage,
     }))
-    .with([{ type: 'success' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
-      type: 'loading',
+    .with([{ type: 'fetching_success' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
+      type: 'fetching',
       search: action.search,
-      totalPage: state.type === 'success' ? state.totalPage : 1,
-    }))
-    .with([{ type: 'success' }, { type: 'CHANGE_LIMIT' }], ([_, action]) => ({
-      type: 'loading',
-      limit: action.limit,
-      totalPage: state.type === 'success' ? state.totalPage : 1,
-    }))
-    .with([{ type: 'success' }, { type: 'CREATE' }], ([state, _]) => ({
-      type: 'creating',
-      data: state.data,
-      limit: state.limit,
       totalPage: state.totalPage,
-      page: state.page,
+      limit: 10,
+      page: 1,
     }))
-    .with([{ type: 'creating' }, { type: 'CREATE_DATA' }], ([_, action]) => ({
+    .with([{ type: 'fetching_success' }, { type: 'CHANGE_LIMIT' }], ([_, action]) => ({
+      type: 'fetching',
+      limit: action.limit,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'fetching_success' }, { type: 'CREATE' }], ([state, _]) => ({
+      ...state,
+      type: 'creating',
+    }))
+    .with([{ type: 'creating' }, { type: 'CREATE_DATA' }], ([state, action]) => ({
+      ...state,
       type: 'creating_data',
       payload: action.payload,
     }))
     .with([{ type: 'creating_data' }, { type: 'CREATE_SUCCESS' }], () => ({
       type: 'creating_success',
     }))
-    .with([{ type: 'creating_success' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
+    .with([{ type: 'creating_success' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1
+    }))
     .with([{ type: 'creating_data' }, { type: 'CREATE_ERROR' }], ([_, action]) => ({
       type: 'creating_error',
       message: action.message,
     }))
-    .with([{ type: 'creating_error' }, { type: 'FETCH' }], () => ({ type: 'loading' }))
+    .with([{ type: 'creating_error' }, { type: 'FETCH' }], () => ({ type: 'fetching' }))
+    .with([{ type: 'fetching_success' }, { type: 'UPDATE' }], ([state, action]) => ({
+      ...state,
+      type: 'updating',
+      payload: action.payload,
+    }))
+    .with([{ type: 'creating' }, { type: 'UPDATE' }], ([state, action]) => ({
+      ...state,
+      type: 'updating',
+      payload: action.payload,
+    }))
+    .with([{ type: 'updating' }, { type: 'CREATE' }], () => ({
+      ...state,
+      type: 'creating',
+    }))
+    .with([{ type: 'creating' }, { type: 'CHANGE_PAGE' }], ([_, action]) => ({
+      type: 'fetching',
+      page: action.page,
+      limit: state.limit,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'creating' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
+      type: 'fetching',
+      search: action.search,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'creating' }, { type: 'CHANGE_LIMIT' }], ([_, action]) => ({
+      type: 'fetching',
+      limit: action.limit,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'updating' }, { type: 'CHANGE_PAGE' }], ([_, action]) => ({
+      type: 'fetching',
+      page: action.page,
+      limit: state.limit,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'updating' }, { type: 'CHANGE_SEARCH' }], ([_, action]) => ({
+      type: 'fetching',
+      search: action.search,
+      totalPage: state.totalPage,
+    }))
+    .with([{ type: 'updating' }, { type: 'UPDATE_DATA' }], ([_, action]) => ({
+      type: 'updating_data',
+      payload: action.payload,
+    }))
+    .with([{ type: 'updating_data' }, { type: 'UPDATE_SUCCESS' }], () => ({
+      type: 'updating_success',
+    }))
+    .with([{ type: 'updating_success' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1
+    }))
+    .with([{ type: 'updating_data' }, { type: 'UPDATE_ERROR' }], ([_, action]) => ({
+      type: 'updating_error',
+      message: action.message,
+    }))
+    .with([{ type: 'updating_error' }, { type: 'FETCH' }], () => ({ type: 'fetching' }))
     .otherwise(() => state);
 };
 
-const onChange = (state: State, dispatch: (action: Action) => void, apiUrl: string, onCreateClick: UseDisclosureReturn) => {
+const onChange = (state: State, dispatch: (action: Action) => void, apiUrl: string, modal: UseDisclosureReturn, primaryKey: string) => {
   match(state)
     .with({ type: 'idle' }, () => dispatch({ type: 'FETCH' }))
-    .with({ type: 'loading' }, (action) => {
+    .with({ type: 'fetching' }, () => {
       Axios.get(`${apiUrl}`, {
         params: {
-          page: action.page ?? 1,
-          limit: action.limit ?? 10,
-          cari: action.search ?? '',
+          page: state.page,
+          limit: state.limit,
+          cari: state.search,
         }
       })
         .then((res) => {
@@ -121,40 +187,53 @@ const onChange = (state: State, dispatch: (action: Action) => void, apiUrl: stri
             data: res.data.data,
             per_page: res.data.per_page,
             total_pages: res.data.total_pages,
-            page: action.page,
-            search: action.search,
+            page: state.page,
+            search: state.search,
           });
         })
         .catch((err) => {
           dispatch({ type: 'FETCH_ERROR', message: err.message });
         });
     })
-    .with({ type: 'creating_data' }, (action) => {
-      Axios.post(`${apiUrl}`, action.payload)
+    .with({ type: 'creating_data' }, () => {
+      Axios.post(`${apiUrl}`, state.payload)
         .then(() => {
-          onCreateClick.onClose();
+          modal.onClose();
           dispatch({ type: 'CREATE_SUCCESS' });
         })
         .catch((err) => {
-          onCreateClick.onClose();
+          modal.onClose();
           dispatch({ type: 'CREATE_ERROR', message: err.message });
         });
     })
     .with({ type: 'creating_success' }, () => dispatch({ type: 'FETCH' }))
     .with({ type: 'creating_error' }, () => dispatch({ type: 'FETCH' }))
+    .with({ type: 'updating_data' }, () => {
+      Axios.put(`${apiUrl}/${state.payload[primaryKey]}`, state.payload)
+        .then(() => {
+          modal.onClose();
+          dispatch({ type: 'UPDATE_SUCCESS' });
+        })
+        .catch((err) => {
+          modal.onClose();
+          dispatch({ type: 'UPDATE_ERROR', message: err.message });
+        });
+    })
+    .with({ type: 'updating_success' }, () => dispatch({ type: 'FETCH' }))
+    .with({ type: 'updating_error' }, () => dispatch({ type: 'FETCH' }))
     .otherwise(() => null);
 }
 
 const initialState: State = { type: 'idle' };
 
-export const useCrudOnePageMachine = (apiUrl: string, onCreateClick: UseDisclosureReturn) => {
+export const useCrudOnePageMachine = (apiUrl: string, modal: UseDisclosureReturn, primaryKey: string) => {
   const [state, dispatch] = React.useReducer(
     reducer,
     initialState
   );
 
   React.useEffect(() => {
-    onChange(state, dispatch, apiUrl, onCreateClick);
+    onChange(state, dispatch, apiUrl, modal, primaryKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiUrl, state]);
 

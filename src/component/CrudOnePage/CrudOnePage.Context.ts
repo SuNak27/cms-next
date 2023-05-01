@@ -4,14 +4,16 @@ import { Action, State } from './CrudOnePage.Machine'
 
 export interface ICrudOnePageContext {
   pageTitle: string
-  onCreateClick: UseDisclosureReturn
+  modal: UseDisclosureReturn
   state: State
+  primaryKey?: string
   dispatch: (action: Action) => void
 }
 
 export const CrudOnePageContext = createContext<ICrudOnePageContext>({
   pageTitle: '',
-  onCreateClick: {
+  primaryKey: '',
+  modal: {
     isOpen: false,
     onOpen: () => { },
     onClose: () => { },

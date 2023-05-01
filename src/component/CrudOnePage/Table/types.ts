@@ -27,6 +27,7 @@ export interface ITbodyProps {
   emptyText?: string
   currentPage: number
   limit: number
+  onRowDoubleClick?: (row: Record<string, any>) => void
 }
 
 export type PaginationItemProps = {

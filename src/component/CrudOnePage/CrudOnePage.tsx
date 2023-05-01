@@ -5,14 +5,15 @@ interface CrudOnePageProps {
   pageTitle: string
   apiUrl: string
   children?: React.ReactNode
+  primaryKey?: string
 }
 
-export const CrudOnePage = ({ pageTitle, children, apiUrl }: CrudOnePageProps) => {
-  const onCreateClick = useDisclosure()
-  const [state, dispatch] = useCrudOnePageMachine(apiUrl, onCreateClick)
+export const CrudOnePage = ({ pageTitle, children, apiUrl, primaryKey = 'id' }: CrudOnePageProps) => {
+  const modal = useDisclosure()
+  const [state, dispatch] = useCrudOnePageMachine(apiUrl, modal, primaryKey)
 
   return (
-    <CrudOnePageContext.Provider value={{ pageTitle, onCreateClick, state, dispatch }}>
+    <CrudOnePageContext.Provider value={{ pageTitle, modal, state, dispatch, primaryKey }}>
       {children}
     </CrudOnePageContext.Provider>
   )
