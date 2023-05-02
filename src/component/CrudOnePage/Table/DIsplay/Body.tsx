@@ -28,8 +28,8 @@ export class Body extends React.Component<ITbodyProps> {
     this.props.onRowDoubleClick && this.props.onRowDoubleClick(item);
   }
 
-  public onContextMenu = (e: React.MouseEvent) => {
-    this.props.onContextMenu && this.props.onContextMenu(e);
+  public onContextMenu = (item: Record<string, any>) => {
+    this.props.onContextMenu && this.props.onContextMenu(item);
   }
 
   public renderRow = () => {
@@ -46,10 +46,8 @@ export class Body extends React.Component<ITbodyProps> {
           color: this.props.color
         }}
         onDoubleClick={() => this.onRowDoubleClick(item)}
-        onContextMenu={(e: React.MouseEvent) => {
-          this.onContextMenu(e);
-          this.setPosition(e);
-          this.openMenu();
+        onContextMenu={() => {
+          this.onContextMenu(item);
         }}
       >
         {this.props.columns.map((column, index) => (

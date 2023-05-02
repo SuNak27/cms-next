@@ -1,6 +1,7 @@
-import { Card, Divider, Flex, Table as ChakraTable, useColorModeValue } from "@chakra-ui/react"
+import { Card, Flex, Table as ChakraTable, useColorModeValue } from "@chakra-ui/react"
 import { TableContainer } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useState } from "react"
+import { FiEdit3, FiTrash2 } from "react-icons/fi"
 import { CrudOnePageContext } from "../../CrudOnePage.Context"
 import { ContextMenu, ContextMenuItem, ContextMenuList, ContextMenuTrigger } from "../ContextMenu"
 import { TableContext } from "../Table.Context"
@@ -9,6 +10,7 @@ import { Header } from "./Header"
 import { Pagination } from "./Pagination"
 
 export const Display: React.FC = () => {
+  const [state, setState] = useState<any>({})
   const tableContext = useContext(TableContext)
   const { dispatch, modal } = useContext(CrudOnePageContext)
   const bodyBackgroundColor = useColorModeValue('gray.200', 'gray.600')
@@ -19,6 +21,11 @@ export const Display: React.FC = () => {
 
   const onRowDoubleClick = (row: any) => {
     dispatch({ type: "UPDATE", payload: row })
+    modal.onOpen()
+  }
+
+  const onContextMenu = () => {
+    dispatch({ type: "UPDATE", payload: state })
     modal.onOpen()
   }
 
@@ -43,30 +50,18 @@ export const Display: React.FC = () => {
                   currentPage={tableContext.currentPage}
                   limit={tableContext.limit}
                   onRowDoubleClick={onRowDoubleClick}
+                  onContextMenu={(item: any) => setState(item)}
                 />
               </ContextMenuTrigger>
             </ChakraTable>
           </TableContainer>
 
           <ContextMenuList>
-            <ContextMenuItem onClick={() => console.log("Option 1")}>
-              Option 1
+            <ContextMenuItem onClick={onContextMenu} icon={<FiEdit3 />} colorScheme={'blue'}>
+              Edit
             </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => console.log("Option 2")}
-              colorScheme="red"
-            >
-              Option 2
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => console.log("Option 3")}
-              colorScheme="blue"
-            >
-              Option 3
-            </ContextMenuItem>
-            <Divider />
-            <ContextMenuItem onClick={() => console.log("Option 4")} disabled>
-              Disabled
+            <ContextMenuItem onClick={onContextMenu} icon={<FiTrash2 />} colorScheme={'red'}>
+              Delete
             </ContextMenuItem>
           </ContextMenuList>
         </ContextMenu>

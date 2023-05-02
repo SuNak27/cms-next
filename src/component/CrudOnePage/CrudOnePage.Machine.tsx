@@ -119,7 +119,16 @@ const reducer = (state: State, action: Action): State => {
       type: 'updating',
       payload: action.payload,
     }))
+    .with([{ type: 'updating' }, { type: 'UPDATE' }], ([state, action]) => ({
+      ...state,
+      type: 'updating',
+      payload: action.payload,
+    }))
     .with([{ type: 'updating' }, { type: 'CREATE' }], () => ({
+      ...state,
+      type: 'creating',
+    }))
+    .with([{ type: 'creating' }, { type: 'CREATE' }], () => ({
       ...state,
       type: 'creating',
     }))

@@ -27,7 +27,7 @@ export interface ITbodyProps {
   currentPage: number
   limit: number
   onRowDoubleClick?: (row: Record<string, any>) => void
-  onContextMenu?: (event: React.MouseEvent) => void
+  onContextMenu?: (row: Record<string, any>) => void
   setPosition?: ({ x, y }: { x: number, y: number }) => void
   openMenu?: () => void
 }

@@ -1,11 +1,12 @@
-import React, { MouseEventHandler, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { ContextMenuContext } from "./ContextMenu";
 
 type Props = {
-  onClick: MouseEventHandler;
+  onClick: () => void;
   colorScheme?: string;
   disabled?: boolean;
+  icon?: React.ReactElement;
   children: React.ReactNode;
 };
 
@@ -13,6 +14,7 @@ export const ContextMenuItem: React.FC<Props> = ({
   children,
   onClick,
   colorScheme,
+  icon,
   disabled = false
 }) => {
   const [variant, setVariant] = useState("ghost");
@@ -21,14 +23,15 @@ export const ContextMenuItem: React.FC<Props> = ({
     <Button
       onClick={(e) => {
         e.preventDefault();
-        onClick(e);
+        onClick();
         closeMenu();
       }}
+      leftIcon={icon}
       variant={variant}
       onMouseOver={() => setVariant("solid")}
       onMouseOut={() => setVariant("ghost")}
-      borderRadius={0}
-      w="100%"
+      borderRadius={'md'}
+      mx={2}
       justifyContent="left"
       size="sm"
       overflow="hidden"
