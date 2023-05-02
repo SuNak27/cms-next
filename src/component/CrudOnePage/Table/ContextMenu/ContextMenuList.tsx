@@ -99,7 +99,7 @@ export const ContextMenuList: React.FC<Props> = ({ children }) => {
       py={2}
       minW={40}
       maxW={96}
-      borderRadius={5}
+      borderRadius={10}
       display="flex"
       flexDirection="column"
       zIndex={1000}
