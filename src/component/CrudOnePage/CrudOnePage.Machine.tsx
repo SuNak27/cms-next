@@ -19,7 +19,7 @@ export type State = {
   | 'updating_success'
   | 'updating_error'
   | 'deleting'
-  | 'deleting_cancel'
+  | 'deleting_data'
   | 'deleting_success'
   | 'deleting_error',
   data?: any[],
@@ -48,6 +48,10 @@ export type Action =
   | { type: 'UPDATE_DATA', payload: any }
   | { type: 'UPDATE_SUCCESS' }
   | { type: 'UPDATE_ERROR', message: string }
+  | { type: 'DELETE', payload: any }
+  | { type: 'DELETE_DATA', payload: any }
+  | { type: 'DELETE_SUCCESS' }
+  | { type: 'DELETE_ERROR', message: string }
 
 const reducer = (state: State, action: Action): State => {
   return match<[State, Action], State>([state, action])
@@ -181,6 +185,28 @@ const reducer = (state: State, action: Action): State => {
       limit: 10,
       page: 1
     }))
+    .with([{ type: 'fetching_success' }, { type: 'DELETE' }], ([state, action]) => ({
+      ...state,
+      type: 'deleting_data',
+      payload: action.payload,
+    }))
+    .with([{ type: 'deleting_data' }, { type: 'DELETE_SUCCESS' }], () => ({
+      type: 'deleting_success',
+    }))
+    .with([{ type: 'deleting_success' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1
+    }))
+    .with([{ type: 'deleting' }, { type: 'DELETE_ERROR' }], ([_, action]) => ({
+      type: 'deleting_error',
+      message: action.message,
+    }))
+    .with([{ type: 'deleting_error' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1
+    }))
     .otherwise(() => state);
 };
 
@@ -235,6 +261,19 @@ const onChange = (state: State, dispatch: (action: Action) => void, apiUrl: stri
     })
     .with({ type: 'updating_success' }, () => dispatch({ type: 'FETCH' }))
     .with({ type: 'updating_error' }, () => dispatch({ type: 'FETCH' }))
+    .with({ type: 'deleting_data' }, () => {
+      Axios.delete(`${apiUrl}/${state.payload[primaryKey]}`)
+        .then(() => {
+          modal.onClose();
+          dispatch({ type: 'DELETE_SUCCESS' });
+        })
+        .catch((err) => {
+          modal.onClose();
+          dispatch({ type: 'DELETE_ERROR', message: err.message });
+        });
+    })
+    .with({ type: 'deleting_success' }, () => dispatch({ type: 'FETCH' }))
+    .with({ type: 'deleting_error' }, () => dispatch({ type: 'FETCH' }))
     .otherwise(() => null);
 }
 

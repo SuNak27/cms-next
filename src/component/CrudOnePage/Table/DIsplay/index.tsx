@@ -2,6 +2,7 @@ import { Card, Flex, Table as ChakraTable, useColorModeValue } from "@chakra-ui/
 import { TableContainer } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { FiEdit3, FiTrash2 } from "react-icons/fi"
+import Swal from "sweetalert2"
 import { CrudOnePageContext } from "../../CrudOnePage.Context"
 import { ContextMenu, ContextMenuItem, ContextMenuList, ContextMenuTrigger } from "../ContextMenu"
 import { TableContext } from "../Table.Context"
@@ -27,6 +28,24 @@ export const Display: React.FC = () => {
   const onContextMenu = () => {
     dispatch({ type: "UPDATE", payload: state })
     modal.onOpen()
+  }
+
+  const deleteData = () => {
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Tidak, batalkan!",
+      reverseButtons: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({ type: "DELETE", payload: state })
+      }
+    })
   }
 
   return (
@@ -60,7 +79,7 @@ export const Display: React.FC = () => {
             <ContextMenuItem onClick={onContextMenu} icon={<FiEdit3 />} colorScheme={'blue'}>
               Edit
             </ContextMenuItem>
-            <ContextMenuItem onClick={onContextMenu} icon={<FiTrash2 />} colorScheme={'red'}>
+            <ContextMenuItem onClick={deleteData} icon={<FiTrash2 />} colorScheme={'red'}>
               Delete
             </ContextMenuItem>
           </ContextMenuList>
