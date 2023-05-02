@@ -1,4 +1,4 @@
-import { CircularProgress, Flex, Tbody as ChakraTbody, Td, Text, Tr } from "@chakra-ui/react"
+import { CircularProgress, Flex, Td, Text, Tr } from "@chakra-ui/react"
 import * as React from "react"
 import { ITbodyProps } from "../types"
 
@@ -16,8 +16,20 @@ export class Body extends React.Component<ITbodyProps> {
     }))
   }
 
+  public setPosition = (e: React.MouseEvent) => {
+    this.props.setPosition && this.props.setPosition({ x: e.clientX, y: e.clientY });
+  }
+
+  public openMenu = () => {
+    this.props.openMenu && this.props.openMenu();
+  }
+
   public onRowDoubleClick = (item: Record<string, any>) => {
     this.props.onRowDoubleClick && this.props.onRowDoubleClick(item);
+  }
+
+  public onContextMenu = (e: React.MouseEvent) => {
+    this.props.onContextMenu && this.props.onContextMenu(e);
   }
 
   public renderRow = () => {
@@ -26,19 +38,27 @@ export class Body extends React.Component<ITbodyProps> {
       : this.props.data;
 
     return data.map((item, index) => (
-      <Tr key={index}
+      <Tr
+        key={index}
         _hover={{
           bg: this.props.backgroundColor,
           cursor: 'pointer',
           color: this.props.color
         }}
         onDoubleClick={() => this.onRowDoubleClick(item)}
+        onContextMenu={(e: React.MouseEvent) => {
+          this.onContextMenu(e);
+          this.setPosition(e);
+          this.openMenu();
+        }}
       >
         {this.props.columns.map((column, index) => (
           column.key !== 'id' &&
           <Td key={index}
             w={column.key === 'no' ? '5%' : 'auto'}
-          >{item[column.key]}</Td>
+          >
+            {item[column.key]}
+          </Td>
         ))}
       </Tr>
     ))
@@ -71,15 +91,11 @@ export class Body extends React.Component<ITbodyProps> {
 
   render() {
     return (
-      <ChakraTbody
-        border={`1px solid`}
-        borderColor={this.props.borderColor}
-        borderRadius={'lg'}
-      >
+      <>
         {this.props.isLoading && this.loading()}
         {!this.props.isLoading && this.props.data.length === 0 && this.emptyRow()}
         {this.renderRow()}
-      </ChakraTbody>
+      </>
     )
   }
 }

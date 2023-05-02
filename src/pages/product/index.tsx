@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
 
 export default function Product() {
   return (
-    <CrudOnePage pageTitle="Product" apiUrl='/product'>
+    <CrudOnePage pageTitle="Product" apiUrl='/product' primaryKey="id_product">
       <Modal formKeys={['name', 'description']} modalTitle='Product' validationSchema={validationSchema}>
         {({ values, handleChange, errors, touched }: FormikProps<FormValue>) => (
           <Flex

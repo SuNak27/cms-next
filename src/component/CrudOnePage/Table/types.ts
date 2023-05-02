@@ -20,7 +20,6 @@ export interface ITbodyProps {
   data: Array<Record<string, any>>
   columns: ColumnTableProps[]
   backgroundColor?: string
-  borderColor?: string
   color?: string
   isLoading?: boolean
   isError?: boolean
@@ -28,6 +27,9 @@ export interface ITbodyProps {
   currentPage: number
   limit: number
   onRowDoubleClick?: (row: Record<string, any>) => void
+  onContextMenu?: (event: React.MouseEvent) => void
+  setPosition?: ({ x, y }: { x: number, y: number }) => void
+  openMenu?: () => void
 }
 
 export type PaginationItemProps = {

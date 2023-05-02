@@ -163,10 +163,15 @@ const reducer = (state: State, action: Action): State => {
       page: 1
     }))
     .with([{ type: 'updating_data' }, { type: 'UPDATE_ERROR' }], ([_, action]) => ({
+      ...state,
       type: 'updating_error',
       message: action.message,
     }))
-    .with([{ type: 'updating_error' }, { type: 'FETCH' }], () => ({ type: 'fetching' }))
+    .with([{ type: 'updating_error' }, { type: 'FETCH' }], () => ({
+      type: 'fetching',
+      limit: 10,
+      page: 1
+    }))
     .otherwise(() => state);
 };
 

@@ -1,4 +1,4 @@
-import { Button, Modal as ChakraModal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Spinner } from "@chakra-ui/react"
+import { Button, Modal as ChakraModal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react"
 import { match } from "ts-pattern";
 import { Formik, Form } from "formik";
 import { FormikValues } from "formik";
@@ -44,7 +44,7 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
     if (crudContext.state.type === 'creating' || crudContext.state.type === 'creating_data') {
       return 'Create'
     } else if (crudContext.state.type === 'updating' || crudContext.state.type === 'updating_data') {
-      return 'Update'
+      return 'Detail'
     }
   }
 
@@ -54,6 +54,12 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
       .with('updating', () => crudContext.dispatch({ type: 'UPDATE_DATA', payload: values }))
       .otherwise(() => { })
   }
+
+  const isLoading = match(crudContext.state.type)
+    .with('creating_data', () => true)
+    .with('updating_data', () => true)
+    .otherwise(() => false)
+
 
   return (
     <>
@@ -84,15 +90,8 @@ export function Modal({ size = 'md', children, initialValues, formKeys, modalTit
                   <Button colorScheme='blue' mr={3} onClick={onClose}>
                     Close
                   </Button>
-                  <Button variant='solid' colorScheme='green' type='submit'>
-                    {match(crudContext.state.type)
-                      .with('creating_data', () =>
-                        <Spinner size={"sm"} />
-                      )
-                      .with('updating_data', () =>
-                        <Spinner size={"sm"} />
-                      )
-                      .otherwise(() => 'Save')}
+                  <Button variant='solid' colorScheme='green' type='submit' isLoading={isLoading} loadingText={'Loading'}>
+                    Save
                   </Button>
                 </ModalFooter>
               </ModalContent>
